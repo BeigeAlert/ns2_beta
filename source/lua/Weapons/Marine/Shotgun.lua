@@ -2,6 +2,7 @@ Log("Loading modified Shotgun.lua for NS2 Balance Beta mod.")
 
 -- Changes:
 -- Re-implemented shotgun damage falloff.
+-- Added an adjustable rate of fire for shotgun (will be a fixed value when shipped).
 
 -- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
@@ -172,8 +173,8 @@ function Shotgun:OnUpdateAnimationInput(modelMixin)
     
     ClipWeapon.OnUpdateAnimationInput(self, modelMixin)
     
-    -- This is constantly recalculated for the benefit of the balance team so they can tweak it in
-    -- real-time.  Eventually, this should just be computed once on load.
+    -- TODO This is constantly recalculated for the benefit of the balance team so they can tweak it
+    -- in real-time.  Eventually, this should just be computed once on load.
     local fireSpeedMult = kShotgunFireAnimationLength / math.max(Shotgun.kFireDuration, 0.01)
     modelMixin:SetAnimationInput("attack_mult", fireSpeedMult)
     
