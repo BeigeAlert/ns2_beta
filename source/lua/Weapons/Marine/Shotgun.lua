@@ -51,6 +51,12 @@ do
         { distance = 0.5, pelletCount = 5, pelletSize = 0.016, pelletDamage = 16 },
         { distance = 1.5, pelletCount = 7, pelletSize = 0.032, pelletDamage = 10 },
     }
+    
+    Shotgun.kTotalDamage = 0
+    for i=1, #kShotgunRings do
+        local ring = kShotgunRings[i]
+        Shotgun.kTotalDamage = Shotgun.kTotalDamage + ring.pelletCount * ring.pelletDamage
+    end
 
     local function CalculateShotgunSpreadVectors()
         local circle = math.pi * 2.0
@@ -72,6 +78,7 @@ do
 
     CalculateShotgunSpreadVectors()
 end
+Shotgun.kDesiredTotalDamage = 130
 
 Shotgun.kModelName = PrecacheAsset("models/marine/shotgun/shotgun.model")
 local kViewModels = GenerateMarineViewModelPaths("shotgun")
@@ -247,7 +254,9 @@ function Shotgun:FirePrimary(player)
 
     self:TriggerEffects("shotgun_attack_sound")
     self:TriggerEffects("shotgun_attack")
-
+    
+    local kDamageMult = Shotgun.kDesiredTotalDamage / Shotgun.kTotalDamage
+    
     for bullet = 1, math.min(numberBullets, #self.kSpreadVectors) do
 
         if not self.kSpreadVectors[bullet] then
@@ -256,7 +265,7 @@ function Shotgun:FirePrimary(player)
 
         local spreadVector = self.kSpreadVectors[bullet].vector
         local pelletSize = self.kSpreadVectors[bullet].size
-        local spreadDamage = self.kSpreadVectors[bullet].damage
+        local spreadDamage = self.kSpreadVectors[bullet].damage * kDamageMult
 
         local spreadDirection = shootCoords:TransformVector(spreadVector)
 
