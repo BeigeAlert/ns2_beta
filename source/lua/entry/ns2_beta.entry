@@ -1,9 +1,0 @@
-modEntry =
-{
-    Client = "lua/ns2_beta/Client.lua",
-    Server = "lua/ns2_beta/Server.lua",
-    Predict = "lua/ns2_beta/Predict.lua",
-    Shared = "lua/ns2_beta/Shared.lua",
-    FileHooks = "lua/ns2_beta/ModuleLoader.lua",
-    Priority = 999,
-}

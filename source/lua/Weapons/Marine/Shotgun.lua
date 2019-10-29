@@ -1,3 +1,8 @@
+Log("Loading modified Shotgun.lua for NS2 Balance Beta mod.")
+
+-- Changes:
+-- Re-implemented shotgun damage falloff.
+
 -- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
 -- lua\Weapons\Shotgun.lua
@@ -35,7 +40,7 @@ Shotgun.kBulletSize = 0.016
 
 Shotgun.kDamageFalloffStart = 6 -- in meters, full damage closer than this.
 Shotgun.kDamageFalloffEnd = 12 -- in meters, minimum damage further than this, gradient between start/end.
-Shotgun.kDamageFalloffReductionFactor = 1.00 -- 0% reduction
+Shotgun.kDamageFalloffReductionFactor = 0.75 -- 25% reduction
 
 Shotgun.kSpreadVectors = {}
 do
@@ -70,6 +75,9 @@ end
 Shotgun.kModelName = PrecacheAsset("models/marine/shotgun/shotgun.model")
 local kViewModels = GenerateMarineViewModelPaths("shotgun")
 
+local kShotgunFireAnimationLength = 0.8474577069282532 -- defined by art asset.
+Shotgun.kFireDuration = 0.62 -- TODO delete kShotgunFireRate in Balance.lua
+
 local kMuzzleEffect = PrecacheAsset("cinematics/marine/shotgun/muzzle_flash.cinematic")
 local kMuzzleAttachPoint = "fxnode_shotgunmuzzle"
 
@@ -98,7 +106,7 @@ if Client then
 end
 
 function Shotgun:GetPrimaryMinFireDelay()
-    return kShotgunFireRate
+    return Shotgun.kFireDuration
 end
 
 function Shotgun:GetPickupOrigin()
@@ -157,7 +165,18 @@ end
 function Shotgun:UpdateViewModelPoseParameters(viewModel)
 
     viewModel:SetPoseParam("empty", self.emptyPoseParam)
+    
+end
 
+function Shotgun:OnUpdateAnimationInput(modelMixin)
+    
+    ClipWeapon.OnUpdateAnimationInput(self, modelMixin)
+    
+    -- This is constantly recalculated for the benefit of the balance team so they can tweak it in
+    -- real-time.  Eventually, this should just be computed once on load.
+    local fireSpeedMult = kShotgunFireAnimationLength / math.max(Shotgun.kFireDuration, 0.01)
+    modelMixin:SetAnimationInput("attack_mult", fireSpeedMult)
+    
 end
 
 local function LoadBullet(self)
@@ -236,7 +255,7 @@ function Shotgun:FirePrimary(player)
 
         local spreadVector = self.kSpreadVectors[bullet].vector
         local pelletSize = self.kSpreadVectors[bullet].size
-        local damage = self.kSpreadVectors[bullet].damage
+        local spreadDamage = self.kSpreadVectors[bullet].damage
 
         local spreadDirection = shootCoords:TransformVector(spreadVector)
 
@@ -268,21 +287,21 @@ function Shotgun:FirePrimary(player)
 
             local target = targets[i]
             local hitPoint = hitPoints[i]
-
-            -- Falloff is turned off, so kill this code to improve performance. Leave this code in case we want to re-enable.
-
+            
+            local thisTargetDamage = spreadDamage
+            
             -- Apply a damage falloff for shotgun damage.
-            --local distance = (hitPoint - startPoint):GetLength()
-            --local falloffFactor = Clamp((distance - self.kDamageFalloffStart) / (self.kDamageFalloffEnd - self.kDamageFalloffStart), 0, 1)
-            --local nearDamage = damage
-            --local farDamage = damage * self.kDamageFalloffReductionFactor
-            --damage = nearDamage * (1.0 - falloffFactor) + farDamage * falloffFactor
-
-            self:ApplyBulletGameplayEffects(player, target, hitPoint - hitOffset, direction, damage, "", showTracer and i == numTargets)
+            local distance = (hitPoint - startPoint):GetLength()
+            local falloffFactor = Clamp((distance - self.kDamageFalloffStart) / (self.kDamageFalloffEnd - self.kDamageFalloffStart), 0, 1)
+            local nearDamage = thisTargetDamage
+            local farDamage = thisTargetDamage * self.kDamageFalloffReductionFactor
+            thisTargetDamage = nearDamage * (1.0 - falloffFactor) + farDamage * falloffFactor
+            
+            self:ApplyBulletGameplayEffects(player, target, hitPoint - hitOffset, direction, thisTargetDamage, "", showTracer and i == numTargets)
 
             local client = Server and player:GetClient() or Client
             if not Shared.GetIsRunningPrediction() and client.hitRegEnabled then
-                RegisterHitEvent(player, bullet, startPoint, trace, damage)
+                RegisterHitEvent(player, bullet, startPoint, trace, thisTargetDamage)
             end
 
         end

@@ -1,8 +1,7 @@
-name        = "beta_balance"
+name        = "NS2 Balance Beta"
 source_dir  = "source/"
 output_dir  = "output/"
 description = [=[]=]
 image       = "preview.jpg"
 tag_modtype = ""
 tag_support = ""
-publish_id = "6ba7131e"
