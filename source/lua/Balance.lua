@@ -2,6 +2,8 @@ Log("Loading modified Balance.lua for NS2 Balance Beta mod.")
 
 -- Changes:
 -- Nano shield time _just for players_ reduced to 3 seconds from 5.
+-- Changed minigun damage type to heavy.
+-- Changed minigun damage amount from 10 to 6
 
 -- ======= Copyright (c) 2003-2012, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
@@ -308,9 +310,8 @@ kFlamethrowerMaxBurnDuration = 6
 kExoDualMinigunModifier = 1
 kExoDualRailgunModifier = 1
 
-kMinigunDamage = 10
-kMinigunDamageType = kDamageType.Normal
-kMinigunClipSize = 250
+kMinigunDamage = 6
+kMinigunDamageType = kDamageType.Heavy
 
 kClawDamage = 50
 kClawDamageType = kDamageType.Structural

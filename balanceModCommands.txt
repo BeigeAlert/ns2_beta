@@ -1,8 +1,15 @@
+set_global
+
 -- Shotgun rate of fire: (vanilla value is 0.8475)
-set_global Shotgun.kFireDuration <seconds per shot> 
+    Shotgun.kFireDuration <seconds per shot> 
 
 -- Shotgun total damage: (vanilla value is 170), value is spread amongst pellets.
-set_global Shotgun.kDesiredTotalDamage <damage>
+    Shotgun.kDesiredTotalDamage <damage>
 
 -- HMG reload time: (vanilla value is 5 seconds)
-set_global HeavyMachineGun.kReloadLength <reload time in seconds>
+    HeavyMachineGun.kReloadLength <reload time in seconds>
+
+-- Minigun Exo values
+    Minigun.kHeatUpRate 0.3
+    Minigun.kCoolDownRate = 0.4
+    Minigun.kOverheatDuration = 1.0
