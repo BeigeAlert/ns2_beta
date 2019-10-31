@@ -2,6 +2,7 @@ Log("Loading modified Mine.lua for NS2 Balance Beta mod.")
 
 -- Changes:
 -- Mines can now be destroyed before they finish activating.
+-- Lerk spikes deal double damage to mines.
 
 -- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
@@ -237,12 +238,6 @@ if Server then
         self:Arm(true)
     end
     
-    --[=[
-    function Mine:GetCanTakeDamage()
-        return self.active
-    end
-    --]=]
-    
     function Mine:OnKill(attacker, doer, point, direction)
         
         self:Arm(true)
@@ -332,6 +327,17 @@ if Client then
     
     end
 
+end
+
+function Mine:ComputeDamageOverride(attacker, damage, damageType, hitPoint)
+    
+    -- Lerk spikes do double damage to mines.
+    if damageType == kDamageType.Puncture and attacker:isa("Lerk") then
+        damage = damage * 2
+    end
+    
+    return damage
+    
 end
 
 Shared.LinkClassToMap("Mine", Mine.kMapName, networkVars)
