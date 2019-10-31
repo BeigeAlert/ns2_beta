@@ -2,6 +2,7 @@ Log("Loading modified Exo.lua for NS2 Balance Beta mod.")
 
 -- Changes:
 -- Players keep their mines when they die.
+-- Occupied exosuits will now auto-repair when out of combat.
 
 -- ======= Copyright (c) 2012, Unknown Worlds Entertainment, Inc. All rights reserved. ============
 --
@@ -32,6 +33,7 @@ Script.Load("lua/MarineActionFinderMixin.lua")
 Script.Load("lua/WebableMixin.lua")
 Script.Load("lua/ExoVariantMixin.lua")
 Script.Load("lua/MarineVariantMixin.lua")
+Script.Load("lua/AutoWeldMixin.lua")
 
 local kExoFirstPersonHitEffectName = PrecacheAsset("cinematics/marine/exo/hit_view.cinematic")
 
@@ -149,6 +151,7 @@ AddMixinNetworkVars(ScoringMixin, networkVars)
 AddMixinNetworkVars(WebableMixin, networkVars)
 AddMixinNetworkVars(MarineVariantMixin, networkVars)
 AddMixinNetworkVars(ExoVariantMixin, networkVars)
+AddMixinNetworkVars(AutoWeldMixin, networkVars)
 
 local function SmashNearbyEggs(self)
 
@@ -182,6 +185,7 @@ function Exo:OnCreate()
     InitMixin(self, ScoringMixin, { kMaxScore = kMaxScore })
     InitMixin(self, WeldableMixin)
     InitMixin(self, CombatMixin)
+    InitMixin(self, AutoWeldMixin)
     InitMixin(self, SelectableMixin)
     InitMixin(self, CorrodeMixin)
     InitMixin(self, TunnelUserMixin)
@@ -793,6 +797,14 @@ if Server then
             exosuit:SetExoVariant(self:GetExoVariant())
             exosuit:SetFlashlightOn(self:GetFlashlightOn())
             exosuit:TransferParasite(self)
+            
+            -- Set the auto-weld cooldown of the dropped exo to match the cooldown if we weren't
+            -- ejecting just now.
+            local combatTimeEnd = math.max(self:GetTimeLastDamageDealt(), self:GetTimeLastDamageTaken()) + kCombatTimeOut
+            local cooldownEnd = math.max(self.timeNextWeld, combatTimeEnd)
+            local now = Shared.GetTime()
+            local combatTimeRemaining = math.max(0, cooldownEnd - now)
+            exosuit.timeNextWeld = now + combatTimeRemaining
             
             local reuseWeapons = self.storedWeaponsIds ~= nil
         
