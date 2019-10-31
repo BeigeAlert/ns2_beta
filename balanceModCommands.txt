@@ -13,3 +13,13 @@ set_global
     Minigun.kHeatUpRate 0.3
     Minigun.kCoolDownRate = 0.4
     Minigun.kOverheatDuration = 1.0
+
+-- Railgun Exo values
+    Railgun.kRange = 400
+    Railgun.kBulletSize = 0.3
+    Railgun.kCooldownTime = 0.3 -- time between shots.
+    Railgun.kChargeTimeForMaxPower = 1.5
+    Railgun.kForceFireTime = 0.5 -- extra time after max power to hold it.
+    Railgun.kTapShotMinPowerDamage = 15
+    Railgun.kTapShotMaxPowerDamage = 50
+    Railgun.kChargedShotDamage = 50
