@@ -87,9 +87,6 @@ local networkVars =
     attacking = "boolean",
     hydraParentId = "entityid",
     variant = "enum kGorgeVariant",
-    
-    -- DEBUG!!!
-    lastHitLocation = "vector",
 }
 
 AddMixinNetworkVars(BaseModelMixin, networkVars)
@@ -442,9 +439,6 @@ function Hydra:OnUpdateRender()
         Client.DestroyRenderDecal(self.decal)
         self.decal = nil
     end
-    
-    -- DEBUG
-    Debug_VisualizeBoxTrace(self.lastHitLocation, self.lastHitLocation, Vector(0.01, 0.01, 0.01), 0)
 
 end
 

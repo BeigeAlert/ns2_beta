@@ -1115,4 +1115,17 @@ function Marine:GetBodyYawTurnThreshold()
     return -Math.Radians(85), Math.Radians(25)
 end
 
+-- Default engagement point is pretty bad for marines.  Need to nudge it to the left slightly due to
+-- the marines' typical stance.
+function Marine:GetEngagementPointOverride()
+    
+    local coords = self:GetCoords()
+    
+    local globalYOffset = 1.0
+    local localXOffset = 0.125
+    local engPt = coords.origin + Vector(0, globalYOffset, 0) + coords.xAxis * localXOffset
+    
+    return engPt
+    
+end
 Shared.LinkClassToMap("Marine", Marine.kMapName, networkVars, true)

@@ -41,15 +41,6 @@ function Hydra:CreateSpikeProjectile()
     local targetPos = self.target:GetEngagementPoint()
     local trace = Shared.TraceRay(barrelPos, targetPos, CollisionRep.Damage, PhysicsMask.Bullets, EntityFilterOneAndIsa(self, "Hydra"))
     
-    -- DEBUG
-    Debug_VisualizeTrace(barrelPos, trace, 1)
-    if trace.fraction == 1 then
-        Log("miss")
-    else
-        Log("hit")
-    end
-    
-    
     if trace.fraction >= 1 then
         return -- hit nothing
     end
