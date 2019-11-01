@@ -1,0 +1,247 @@
+geometry        "skulk.dae"
+
+physics
+{
+    default     "skulk_physics.dae"
+    damage      "skulk_physics_damage.dae"
+}
+
+scale 0.9
+
+attach_point	"Bone_Tongue"
+attach_point	"babbler_attach1"
+attach_point	"babbler_attach2"
+attach_point	"babbler_attach3"
+attach_point	"babbler_attach4"
+attach_point	"babbler_attach5"
+attach_point	"babbler_attach6"
+
+animation_node "#jaw"	"skulk_jaw.dae" loop relative_to_start
+
+animation_node "#aim"
+	blend "body_pitch" -45 45
+	{
+		"skulk_action.dae" from "skulk_look_down_POSE" to "skulk_look_down_POSE" relative_to_start
+		"skulk_action.dae" from "skulk_look_up_POSE" to "skulk_look_up_POSE" relative_to_start
+	}
+
+animation_node	"#turn"
+	blend	"body_yaw" -90 90
+
+		{
+			"skulk_action.dae" from "skulk_turn_left_90d_POSE" to "skulk_turn_left_90d_POSE" relative_to_start
+			"skulk_action.dae" from "skulk_turn_left_60d_POSE" to "skulk_turn_left_60d_POSE" relative_to_start
+			"skulk_action.dae" from "skulk_turn_left_30d_POSE" to "skulk_turn_left_30d_POSE" relative_to_start
+			"skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_SFRAME" relative_to_start
+			"skulk_action.dae" from "skulk_turn_right_30d_POSE" to "skulk_turn_right_30d_POSE" relative_to_start
+			"skulk_action.dae" from "skulk_turn_right_60d_POSE" to "skulk_turn_right_60d_POSE" relative_to_start
+			"skulk_action.dae" from "skulk_turn_right_90d_POSE" to "skulk_turn_right_90d_POSE" relative_to_start
+		}
+
+animation_node	"#runturn"
+	blend	"body_yaw_run" -90 90
+		{
+			"skulk_runf.dae" from "skulk_runturn_left_90_POSE" to "skulk_runturn_left_90_POSE" loop relative_to_start
+			"skulk_runf.dae" from "skulk_runf_SFRAME" to "skulk_runf_SFRAME" loop relative_to_start
+			"skulk_runf.dae" from "skulk_runturn_right_90_POSE" to "skulk_runturn_right_90_POSE" loop relative_to_start
+		}
+
+animation_node  "#flinch" 
+	blend "intensity" 0 1
+		{ 
+			"skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_SFRAME" loop relative_to_start
+			"skulk_flinches.dae" loop relative_to_start
+		}
+
+animation "idle" layer	{"skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#flinch" "#jaw" "#aim" "#turn" }
+
+animation_node	"#trans"
+	blend "wall_trans" 0 1
+		{
+			"skulk_wall_trans.dae" from "wall_transition_baseIdle_POSE" to "wall_transition_baseIdle_POSE" loop relative_to_start
+		blend "move_yaw" 0 360 wrap
+			{
+				"skulk_wall_trans.dae" from "wall_transition_r_POSE" to "wall_transition_r_POSE" loop relative_to_start
+				"skulk_wall_trans.dae" from "wall_transition_f_POSE" to "wall_transition_f_POSE" loop relative_to_start
+				"skulk_wall_trans.dae" from "wall_transition_l_POSE" to "wall_transition_l_POSE" loop relative_to_start
+				"skulk_wall_trans.dae" from "wall_transition_b_POSE" to "wall_transition_b_POSE" loop relative_to_start
+				"skulk_wall_trans.dae" from "wall_transition_r_POSE" to "wall_transition_r_POSE" loop relative_to_start
+			}
+		}
+
+animation "run"  
+	layer
+	{
+		
+		blend "move_yaw" 0 360 wrap
+		{
+			blend "move_speed" 0 1
+			{
+			layer { "skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#turn"}
+				"skulk_walk_l.dae" loop
+				layer { "skulk_runl.dae" loop "#runturn"}
+			}
+			blend "move_speed" 0 1
+			{
+			layer { "skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#turn"}
+				"skulk_walk_f.dae" loop
+				layer { "skulk_runf.dae" from "skulk_runf_SFRAME" to "skulk_runf_EFRAME" loop "#runturn"}
+			}
+			blend "move_speed" 0 1
+			{
+			layer { "skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#turn"}
+				"skulk_walk_r.dae" loop
+				layer { "skulk_runr.dae" loop "#runturn"}
+			}
+			blend "move_speed" 0 .75
+			{
+			layer { "skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#turn"}
+				"skulk_walk_b.dae" loop
+				layer { "skulk_runb.dae" from "skulk_runb_SFRAME" to "skulk_runb_EFRAME"loop  "#runturn"}
+			}
+			blend "move_speed" 0 1
+			{
+			layer { "skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#turn"}
+				"skulk_walk_l.dae" loop
+				layer { "skulk_runl.dae" loop "#runturn"}
+			}
+		}
+		"#aim" "#jaw" "#flinch"
+	}
+
+animation_node	"#wallrunturn"
+	blend	"body_yaw_run" -90 90
+		{
+			"skulk_wallrun_f.dae" from "runturn_left_90_POSE" to "runturn_left_90_POSE" loop relative_to_start
+			"skulk_wallrun_f.dae" from "runturn_ref_POSE" to "runturn_ref_POSE" loop relative_to_start
+			"skulk_wallrun_f.dae" from "runturn_right_90_POSE" to "runturn_right_90_POSE" loop relative_to_start
+		}
+
+
+animation "wallrun"  
+	layer
+	{
+		blend "move_yaw" 0 360 wrap
+		{
+			blend "move_speed" 0 1
+			{
+				layer { "skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#turn"}
+				layer { "skulk_wallrun_l.dae" from "skulk_runf_SFRAME" to "skulk_runf_EFRAME" loop "#wallrunturn"}
+			}
+			blend "move_speed" 0 1
+			{
+				layer { "skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#turn"}
+				layer { "skulk_wallrun_f.dae" from "skulk_runf_SFRAME" to "skulk_runf_EFRAME" loop "#wallrunturn"}
+			}
+			blend "move_speed" 0 1
+			{
+				layer { "skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#turn"}
+				layer { "skulk_wallrun_r.dae" from "skulk_runf_SFRAME" to "skulk_runf_EFRAME" loop "#wallrunturn"}
+			}
+			blend "move_speed" 0 .75
+			{
+				layer { "skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#turn"}
+				layer { "skulk_wallrun_b.dae" from "skulk_runf_SFRAME" to "skulk_runf_EFRAME" loop  "#wallrunturn"}
+			}
+			blend "move_speed" 0 1
+			{
+				layer { "skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop "#turn"}
+				layer { "skulk_wallrun_l.dae" from "skulk_runf_SFRAME" to "skulk_runf_EFRAME" loop "#wallrunturn"}
+			}
+		}
+		"#aim" "#jaw" "#trans" "#flinch"
+	}
+
+
+
+/*
+animation "wallrun"  
+	layer
+	{
+		blend "move_speed" 0 1
+		{
+
+			"skulk_action.dae" from "skulk_idle_SFRAME" to "skulk_idle_EFRAME" loop
+
+			blend "move_yaw" 0 360 wrap
+			{
+				"skulk_walk_wall.dae" loop
+				"skulk_walk_wall.dae" loop
+				"skulk_walk_wall.dae" loop
+				"skulk_walk_wall.dae" loop
+				"skulk_walk_wall.dae" loop
+			}
+
+
+			blend "move_yaw" 0 360 wrap
+			{
+				"skulk_wallrun_l.dae" loop
+				"skulk_wallrun_f.dae" from "skulk_runf_SFRAME" to "skulk_runf_EFRAME" loop
+				"skulk_wallrun_r.dae" loop
+				"skulk_wallrun_b.dae" loop
+				"skulk_wallrun_l.dae" loop
+		
+			}
+	
+		}
+		"#aim" "#jaw" "#trans" "#flinch"
+	}
+*/
+animation  "bite"
+		blend "move_speed" 0 1
+		{
+		layer {"skulk_action.dae" from "skulk_bite1_SFRAME" to "skulk_bite1_EFRAME" "#turn"}
+		"skulk_action.dae" from "skulk_bitehead_SFRAME" to "skulk_bitehead_EFRAME" relative_to_start
+		}
+
+animation_node "#jump"
+blend "move_yaw" 0 360 wrap
+		{
+			"skulk_jump.dae" from "Jump_LoopL_POSE" to "Jump_LoopL_POSE" loop relative_to_start
+			"skulk_jump.dae" from "Jump_LoopF_POSE" to "Jump_LoopF_POSE" loop relative_to_start
+			"skulk_jump.dae" from "Jump_LoopR_POSE" to "Jump_LoopR_POSE" loop relative_to_start
+			"skulk_jump.dae" from "Jump_LoopB_POSE" to "Jump_LoopB_POSE" loop relative_to_start
+			"skulk_jump.dae" from "Jump_LoopL_POSE" to "Jump_LoopL_POSE" loop relative_to_start
+		}
+
+
+animation		 "jumpin" 
+		blend "move_speed" 0 2
+		{
+			"skulk_jump.dae" from "Jump_In_STA" to "Jump_In_END"
+			layer { "skulk_jump.dae" from "Jump_In_STA" to "Jump_In_END"  "#jump"}
+		}
+
+animation		 "jump"
+		blend "move_speed" 0 2
+		{
+			"skulk_jump.dae" from "Jump_Loop_STA" to "Jump_Loop_END" loop
+			layer { "skulk_jump.dae" from "Jump_Loop_STA" to "Jump_Loop_END" loop  "#jump"}
+		}
+
+animation		 "jumpout"
+		blend "move_speed" 0 2
+		{
+			"skulk_jump.dae" from "Jump_Land_POSE" to "Jump_Land_POSE" 
+			layer { "skulk_jump.dae" from "Jump_Land_POSE" to "Jump_Land_POSE"  "#jump"}
+		}
+
+animation		 "stun" 			"skulk_action.dae" from "skulk_death_POSE" to "skulk_death_POSE"
+animation		 "death" 			"skulk_action.dae" from "skulk_death_POSE" to "skulk_death_POSE"
+animation		 "taunt" 			"skulk_taunt.dae"
+animation		 "leap_start" 			"skulk_leap_fast.dae" from "leap_in_SFRAME" to "leap_in_EFRAME" 
+animation		 "leap" 			"skulk_leap_fast.dae" from "leap_SFRAME" to "leap_EFRAME" loop
+animation		 "leap_end" 			"skulk_leap_fast.dae" from "leap_out_SFRAME" to "leap_out_EFRAME" 
+
+/* ANIMATIONS TO BE ADDED
+animation_node "#jaw1"	"skulk_jaw.dae" from "skulk_jaw1_SFRAME" to "skulk_jaw1_EFRAME" loop relative_to_start
+animation_node "#jaw2"	"skulk_jaw.dae" from "skulk_jaw2_SFRAME" to "skulk_jaw2_EFRAME" loop relative_to_start
+animation_node "#jaw3"	"skulk_jaw.dae" from "skulk_jaw3_SFRAME" to "skulk_jaw3_EFRAME" loop relative_to_start
+
+need flinch flames
+
+animation		 "idle2" "skulk_action.dae" from "skulk_idle1_SFRAME" to "skulk_idle1_EFRAME" loop
+
+*/
+
+	

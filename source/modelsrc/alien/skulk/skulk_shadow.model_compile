@@ -1,0 +1,19 @@
+geometry        "skulk_shadow.dae"
+
+physics
+{
+    default     "skulk_physics.dae"
+    damage      "skulk_physics_damage.dae"
+}
+
+scale 0.9
+
+attach_point	"Bone_Tongue"
+attach_point	"babbler_attach1"
+attach_point	"babbler_attach2"
+attach_point	"babbler_attach3"
+attach_point	"babbler_attach4"
+attach_point	"babbler_attach5"
+attach_point	"babbler_attach6"
+
+animation_model	"models/alien/skulk/skulk.model"
