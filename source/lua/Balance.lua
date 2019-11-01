@@ -3,7 +3,8 @@ Log("Loading modified Balance.lua for NS2 Balance Beta mod.")
 -- Changes:
 -- Nano shield time _just for players_ reduced to 3 seconds from 5.
 -- Changed minigun damage type to heavy.
--- Changed minigun damage amount from 10 to 6
+-- Changed minigun damage amount from 10 to 6.
+-- Increased lerk spikes size from 45mm to 60mm.
 
 -- ======= Copyright (c) 2003-2012, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
@@ -430,7 +431,7 @@ kUmbraRailgunModifier = 0.8
 kUmbraGrenadeModifier = 0.8
 
 kSpikeSpread = Math.Radians(3.6)
-kSpikeSize = 0.045
+kSpikeSize = 0.060
 kSpikeDamage = 5
 kSpikeDamageType = kDamageType.Puncture
 kSpikeEnergyCost = 1.4
