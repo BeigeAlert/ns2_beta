@@ -23,3 +23,8 @@ set_global
     Railgun.kTapShotMinPowerDamage = 15
     Railgun.kTapShotMaxPowerDamage = 50
     Railgun.kChargedShotDamage = 50
+
+-- Heal spray values
+    HealSprayMixin.kMaturityTimeSkipped = 1
+    HealSprayMixin.kEvolutionTimeAdded = 1
+    
