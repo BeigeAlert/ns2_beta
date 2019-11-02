@@ -2,6 +2,7 @@ Log("Loading modified BalanceMisc.lua for NS2 Balance Beta mod.")
 
 -- Changes:
 -- Changed weapon expiration time from 25 -> 16 seconds.
+-- Changed crag, shift, and shade supply cost from 25 -> 20.
 
 -- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
@@ -328,6 +329,6 @@ kPhaseGateSupply = 0
 
 kDrifterSupply = 5
 kWhipSupply = 30
-kCragSupply = 25
-kShadeSupply = 25
-kShiftSupply = 25
+kCragSupply = 20
+kShadeSupply = 20
+kShiftSupply = 20
