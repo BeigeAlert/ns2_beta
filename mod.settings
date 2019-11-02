@@ -1,7 +1,7 @@
 name        = "NS2 Balance Beta"
-source_dir  = "source/"
-output_dir  = "output/"
-description = [=[]=]
+source_dir  = "source"
+output_dir  = "output"
+description = [=[NS2 Balance Beta]=]
 image       = "preview.jpg"
-tag_modtype = ""
-tag_support = ""
+tag_modtype = "Gameplay Tweak"
+tag_support = "Must be run on Server"
