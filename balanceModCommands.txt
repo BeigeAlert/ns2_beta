@@ -32,3 +32,6 @@ set_global
     Web.kZeroVisDistance = 5.0 -- fully-invisible at this distance.
     Web.kFullVisDistance = 2.5 -- fully-visible at this distance.
     Web.kDistortionIntensity = 0.0625
+
+-- Stab values
+    StabBlink.kAttackDuration = 0.533 -- length of stab attack (default == length of swipe animation)
