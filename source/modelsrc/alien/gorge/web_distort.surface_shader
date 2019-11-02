@@ -10,7 +10,6 @@
     </inputs>
 
     <params>
-        <param name="alphaTest">true</param>
         <param name="vsPosition">true</param>
         <param name="vsTangent">true</param>
         <param name="vsBinormal">true</param>
