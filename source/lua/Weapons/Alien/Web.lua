@@ -42,6 +42,9 @@ local networkVars =
 
 Web.kZeroVisDistance = 5.0
 Web.kFullVisDistance = 2.5
+Web.kDistortionIntensity = 0.0625
+
+local kWebDistortMaterial = PrecacheAsset("models/alien/gorge/web_distort.material")
 
 AddMixinNetworkVars(TechMixin, networkVars)
 AddMixinNetworkVars(BaseModelMixin, networkVars)
@@ -203,7 +206,7 @@ function Web:OnDestroy()
 end
 
 if Client then
-
+    
     function Web:OnUpdateRender()
     
         -- If we're not an enemy, (eg we're an alien or a spectator), we should be able to see webs
@@ -220,13 +223,26 @@ if Client then
             return
         end
         
-        local isMarine = GetIsMarineUnit(player)
-        if isMarine then
-            renderModel:SetMaterialParameter("noVisDist", Web.kZeroVisDistance)
-            renderModel:SetMaterialParameter("fullVisDist", Web.kFullVisDistance)
+        local shouldDistort = GetIsMarineUnit(player)
+        if shouldDistort and not self._distortRenderMaterial then
+            self._distortRenderMaterial = Client.CreateRenderMaterial()
+            renderModel:AddMaterial(self._distortRenderMaterial)
+            self._distortRenderMaterial:SetMaterial(kWebDistortMaterial)
+        elseif not shouldDistort and self._distortRenderMaterial then
+            renderModel:RemoveMaterial(self._distortRenderMaterial)
+            Client.DestroyRenderMaterial(self._distortRenderMaterial)
+            self._distortRenderMaterial = nil
+        end
+        
+        -- This should be set once, upon creation, and be done -- but we'll update every frame here
+        -- for the benefit of the balance team, so they can tweak the values in real-time.
+        if self._distortRenderMaterial then
+            self._distortRenderMaterial:SetParameter("noVisDist", Web.kZeroVisDistance)
+            self._distortRenderMaterial:SetParameter("fullVisDist", Web.kFullVisDistance)
+            self._distortRenderMaterial:SetParameter("distortionIntensity", Web.kDistortionIntensity)
+            renderModel:SetMaterialParameter("opacityMult", 0)
         else
-            renderModel:SetMaterialParameter("noVisDist", -1)
-            renderModel:SetMaterialParameter("fullVisDist", 0)
+            renderModel:SetMaterialParameter("opacityMult", 1)
         end
     
     end

@@ -1,14 +1,12 @@
 <shader>
 
     <inputs>
-        <input name="albedoMap"     type="texture" address="wrap" />
-        <input name="normalMap"     type="texture" address="wrap" />
-        <input name="specularMap"   type="texture" address="wrap" />
-        <input name="emissiveMap"   type="texture" address="wrap" srgb="true"/>
-
-        <input name="decals"        type="float">  0.0 </input>
-        <input name="noVisDist"     type="float">  5.0 </input>
-        <input name="fullVisDist"   type="float">  2.5 </input>
+        <input name="normalMap"             type="texture" address="wrap" />
+        <input name="opacityMap"            type="texture" address="wrap" />
+        
+        <input name="noVisDist"             type="float">  5.0  </input>
+        <input name="fullVisDist"           type="float">  2.5  </input>
+        <input name="distortionIntensity"   type="float">  0.25 </input>
     </inputs>
 
     <params>
@@ -28,8 +26,6 @@
         }
         void MaterialShader(in Material_Input input, inout Material material)
         {
-            float4 specularGloss = tex2D(specularMap, input.texCoord);
-
             float distance = length(input.vsPosition);
             float visibility = saturate((distance - noVisDist) / (fullVisDist - noVisDist));
 
@@ -41,19 +37,7 @@
                               tsNormal.y * input.vsBinormal +
                               tsNormal.z * input.vsNormal;
             
-            float3 ssDir = normalize(input.vsPosition);
-            float agreement = saturate(-dot(ssDir, input.vsNormal));
-            agreement *= agreement;
-            agreement *= agreement;
-            
-            material.opacity = saturate(agreement + ((2 * visibility) - 1) + 0.5);
-
-            material.albedo     = tex2D(albedoMap, input.texCoord).rgb;
-            material.tsNormal   = tsNormal;
-            material.specular   = specularGloss.rgb;
-            material.gloss      = specularGloss.a;
-            material.emissive   = tex2D(emissiveMap, input.texCoord).rgb * visibility;
-            material.id         = decals;
+            material.ssDistortion = vsNormal.xy * float2(1, -1) * visibility * tex2D(opacityMap, input.texCoord).r * distortionIntensity;
         }
     ]]>
     </code>

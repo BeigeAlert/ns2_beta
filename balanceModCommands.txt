@@ -31,3 +31,4 @@ set_global
 -- Web values
     Web.kZeroVisDistance = 5.0 -- fully-invisible at this distance.
     Web.kFullVisDistance = 2.5 -- fully-visible at this distance.
+    Web.kDistortionIntensity = 0.0625
