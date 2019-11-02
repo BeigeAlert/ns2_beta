@@ -6,6 +6,7 @@ Log("Loading modified Balance.lua for NS2 Balance Beta mod.")
 -- Changed minigun damage amount from 10 to 6.
 -- Increased lerk spikes size from 45mm to 60mm.
 -- Set webbed duration to 2.5 from 1.5
+-- Changed stab damage type to Structural, and set damage and energy cost to match swipe.
 
 -- ======= Copyright (c) 2003-2012, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
@@ -451,11 +452,12 @@ kSporesDustCloudLifetime = 4
 kSwipeDamageType = kDamageType.Puncture
 kSwipeDamage = 37.5
 kSwipeEnergyCost = 7
+
 kMetabolizeEnergyCost = 25
 
-kStabDamage = 160
-kStabDamageType = kDamageType.Normal
-kStabEnergyCost = 30
+kStabDamage = 37.5
+kStabDamageType = kDamageType.Structural
+kStabEnergyCost = 7
 
 kStartBlinkEnergyCost = 14
 kBlinkEnergyCost = 32
