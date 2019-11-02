@@ -28,3 +28,6 @@ set_global
     HealSprayMixin.kMaturityTimeSkipped = 1
     HealSprayMixin.kEvolutionTimeAdded = 1
     
+-- Web values
+    Web.kZeroVisDistance = 5.0 -- fully-invisible at this distance.
+    Web.kFullVisDistance = 2.5 -- fully-visible at this distance.

@@ -1,0 +1,6 @@
+shader = "models/alien/gorge/web_model_alpha.surface_shader"
+albedoMap = "models/alien/gorge/web_02.dds"
+normalMap = "models/alien/gorge/web_02_normal.dds"
+specularMap = "models/alien/gorge/web_02_spec.dds"
+opacityMap = "models/alien/gorge/web_02_alpha.dds"
+surface = "organic"
