@@ -3,6 +3,7 @@ Log("Loading modified BalanceMisc.lua for NS2 Balance Beta mod.")
 -- Changes:
 -- Changed weapon expiration time from 25 -> 16 seconds.
 -- Changed crag, shift, and shade supply cost from 25 -> 20.
+-- Decreased skulk vampirism effectiveness (down to 14% from 20%)
 
 -- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
@@ -267,7 +268,7 @@ kFadeCarapaceSpeedReduction = 0 --0.15
 kOnosCarapaceSpeedReduction = 0 --0.12
 
 -- how much of the health points vamparism restores with each sucessfull attack
-kBiteLeapVampirismScalar = 0.0667
+kBiteLeapVampirismScalar = 0.0466
 kParasiteVampirismScalar = 0
 kSpitVampirismScalar = 0.0267
 kHealSprayVampirismScalar = 0
