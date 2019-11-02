@@ -5,6 +5,7 @@ Log("Loading modified Balance.lua for NS2 Balance Beta mod.")
 -- Changed minigun damage type to heavy.
 -- Changed minigun damage amount from 10 to 6.
 -- Increased lerk spikes size from 45mm to 60mm.
+-- Set webbed duration to 2.5 from 1.5
 
 -- ======= Copyright (c) 2003-2012, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
@@ -409,7 +410,7 @@ kBileBombSplashRadius = 6
 kBileBombDotInterval = 0.4
 
 kWebBuildCost = 0
-kWebbedDuration = 1.5
+kWebbedDuration = 2.5
 kWebbedParasiteDuration = 10
 kWebSlowVelocityScalar = 0.75 --Note: Exos override this
 

@@ -3,7 +3,8 @@ Log("Loading modified Web.lua for NS2 Balance Beta mod.")
 -- Changes:
 -- Webs have a new shader that makes them invisible over a certain distance.  Shader inputs are
 --      updated here so that aliens can always see webs, but marines cannot.
-
+-- Removed web parasite effect.
+-- Removed web from the killfeed.
 
 -- ======= Copyright (c) 2003-2013, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
@@ -272,14 +273,6 @@ local function CheckForIntersection(self, fromPlayer)
               
                 fromPlayer:SetWebbed(kWebbedDuration)
                 
-                --FIXME Web seems to not have Owner applied, because this is running in ProcessMove
-                --  Owner only accessible on ServerVM ...
-                if HasMixin( fromPlayer, "ParasiteAble" ) and HasMixin( self, "Owner" ) then
-                    --TODO Modify ParasiteMixin to specify a duration
-                    local WebOwner = self:GetOwner() or nil
-                    fromPlayer:SetParasited( WebOwner, kWebbedParasiteDuration )
-                end
-                
                 if Server and fromPlayer:isa("Exo") then
                     DestroyEntity(self)
                 end
@@ -343,6 +336,10 @@ if Server then
             self.triggerSpawnEffect = true
         end
 
+    end
+    
+    function Web:GetSendDeathMessageOverride()
+        return false
     end
 
 end
