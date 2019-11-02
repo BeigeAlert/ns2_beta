@@ -68,6 +68,8 @@ kAlienCrushDamagePercentByLevel = 0.07  --Max 21%
 kFocusAttackSlowAtMax = 0.33
 kFocusDamageBonusAtMax = 0.33
 
+kStabFocusDamageBonusAtMax = kFocusDamageBonusAtMax -- anticipating this will need tweaking later
+
 -- special case for gorge spit
 kSpitFocusAttackSlowAtMax = 0
 kSpitFocusDamageBonusAtMax = 0.33
@@ -274,6 +276,7 @@ kHealSprayVampirismScalar = 0
 kLerkBiteVampirismScalar = 0.0267
 kSpikesVampirismScalar = 0
 kSwipeVampirismScalar = 0.0333
+kStabVampirismScalar = 0.0667
 kGoreVampirismScalar = 0.0183
 
 -- Carries the umbra cloud for x additional seconds

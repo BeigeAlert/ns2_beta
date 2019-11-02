@@ -453,6 +453,10 @@ kSwipeDamage = 37.5
 kSwipeEnergyCost = 7
 kMetabolizeEnergyCost = 25
 
+kStabDamage = 160
+kStabDamageType = kDamageType.Normal
+kStabEnergyCost = 30
+
 kStartBlinkEnergyCost = 14
 kBlinkEnergyCost = 32
 kHealthOnBlink = 0
@@ -653,6 +657,8 @@ kSporesResearchCost = 20
 kSporesResearchTime = 60
 kStompResearchCost = 35
 kStompResearchTime = 90
+kStabResearchCost = 25
+kStabResearchTime = 60
 kMetabolizeEnergyResearchCost = 20
 kMetabolizeEnergyResearchTime = 40
 kMetabolizeHealthResearchCost = 20
