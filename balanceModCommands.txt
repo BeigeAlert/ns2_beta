@@ -35,3 +35,5 @@ set_global
 
 -- Stab values
     StabBlink.kAttackDuration = 0.533 -- length of stab attack (default == length of swipe animation)
+    kStabDamage = 37.5
+    kStabEnergyCost = 7
