@@ -26,6 +26,7 @@ Script.Load("lua/LOSMixin.lua")
 Script.Load("lua/SleeperMixin.lua")
 Script.Load("lua/ParasiteMixin.lua")
 Script.Load("lua/MarineOutlineMixin.lua")
+Script.Load("lua/Ragdoll.lua")
 
 class 'Mine' (ScriptActor)
 
@@ -123,13 +124,10 @@ function Mine:Detonate()
 
 end
 
-function Mine:Arm(forceDetonate)
+-- Returns true if the mine was armed, or was already armed.  False if the mine was not armed.
+function Mine:Arm()
     
-    if forceDetonate then
-        self.active = true
-    end
-    
-    if not self.active then return end
+    if not self.active then return false end
     
     if not self.armed then
         
@@ -138,8 +136,10 @@ function Mine:Arm(forceDetonate)
         self:TriggerEffects("mine_arm")
         
         self.armed = true
-    
+        
     end
+    
+    return true -- self.armed is always true at this point.
 
 end
 
@@ -211,6 +211,7 @@ function Mine:OnInitialized()
         self:AddTimedCallback(self.Activate, kMineActiveTime)
         
         self.armed = false
+        self.harmless = false
         self:SetHealth(self:GetMaxHealth())
         self:SetArmor(self:GetMaxArmor())
         self:TriggerEffects("mine_spawn")
@@ -231,19 +232,33 @@ if Server then
     end
     
     function Mine:OnTouchInfestation()
-        self:Arm(true)
+        self:Arm()
     end
     
     function Mine:OnStun()
-        self:Arm(true)
+        self:Arm()
     end
     
     function Mine:OnKill(attacker, doer, point, direction)
         
-        self:Arm(true)
+        local isArmed = self:Arm()
+        self.harmless = not isArmed
+        
+        -- Spawn a mine ragdoll if the mine was destroyed without exploding.
+        if self.harmless then
+            local ragdoll = CreateMineRagdoll(self)
+        end
         
         ScriptActor.OnKill(self, attacker, doer, point, direction)
     
+    end
+    
+    function Mine:GetPlayInstantRagdoll()
+        return true
+    end
+    
+    function Mine:GetDestroyOnKill()
+        return self.harmless
     end
     
     function Mine:OnTriggerEntered(entity)
@@ -341,3 +356,52 @@ function Mine:ComputeDamageOverride(attacker, damage, damageType, hitPoint)
 end
 
 Shared.LinkClassToMap("Mine", Mine.kMapName, networkVars)
+
+class "MineRagdoll" (Ragdoll)
+
+MineRagdoll.kMapName = "mine_ragdoll"
+
+function CreateMineRagdoll(fromMine)
+
+    local ragdoll = CreateEntity(MineRagdoll.kMapName, fromMine:GetOrigin())
+    ragdoll:SetCoords(fromMine:GetCoords())
+    ragdoll:SetModel(fromMine:GetModelName())
+    ragdoll:SetPhysicsType(PhysicsType.Dynamic)
+    ragdoll:SetPhysicsGroup(PhysicsGroup.RagdollGroup)
+    
+end
+
+-- constants for the mine flipping.
+MineRagdoll.kOffsetXZScale = 0.1
+MineRagdoll.kOffsetYScale = 0.1
+MineRagdoll.kImpulseMagnitude = 0.25
+
+if Client then
+    
+    function MineRagdoll:DoFlip()
+    
+        local physicsModel = self:GetPhysicsModel()
+        if physicsModel then
+            local offset = Vector((math.random() * 2 - 1) * self.kOffsetXZScale, math.random() * self.kOffsetYScale, (math.random() * 2 - 1) * self.kOffsetXZScale)
+            physicsModel:AddImpulse(offset, self:GetCoords().yAxis * MineRagdoll.kImpulseMagnitude)
+            return false -- don't fire again
+        end
+    
+        return true -- not available, try again next update.
+    end
+    
+    function MineRagdoll:OnInitialized()
+        
+        Ragdoll.OnInitialized(self)
+        
+        -- Add random impulse to make the mine flip around.
+        -- Gotta do it once the physics model is available though, so keep trying until we can.
+        self:AddTimedCallback(self.DoFlip, 0)
+        
+    end
+    
+end
+
+Shared.LinkClassToMap("MineRagdoll", MineRagdoll.kMapName, {})
+
+
