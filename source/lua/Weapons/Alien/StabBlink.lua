@@ -4,6 +4,7 @@ Log("Loading modified StabBlink.lua for NS2 Balance Beta mod.")
 -- Change attack duration of stab to match swipe.
 -- Use "stab_hit" tag (node tag) instead of "hit" tag (animation tag), to avoid bug where tags in
 --      animations sometimes don't fire.
+-- Blink is allowed during stab.
 
 -- ======= Copyright (c) 2003-2013, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
@@ -28,7 +29,7 @@ local kRange = 1.9
 local kAnimationGraph = PrecacheAsset("models/alien/fade/fade_view.animation_graph")
 local kAttackAnimationLength = Shared.GetAnimationLength("models/alien/fade/fade_view.model", "stab")
 StabBlink.cooldownInfluence = 0.5 -- 0 = no focus cooldown, 1 = same as kAttackDuration
-StabBlink.kAttackDuration = 0.533 -- duration of swipe.
+StabBlink.kAttackDuration = kAttackAnimationLength -- no change for now...
 
 function StabBlink:OnCreate()
 
@@ -68,7 +69,7 @@ function StabBlink:GetSecondaryTechId()
 end
 
 function StabBlink:GetBlinkAllowed()
-    return not self.stabbing
+    return true
 end
 
 function StabBlink:OnPrimaryAttack(player)
@@ -153,7 +154,7 @@ function StabBlink:OnTag(tagName)
         self:TriggerEffects("stab_attack")
         self.stabbing = true
     
-    elseif tagName == "stab_hit" and self.stabbing then
+    elseif tagName == "hit" and self.stabbing then
         
         self:DoAttack()
         

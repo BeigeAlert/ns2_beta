@@ -455,9 +455,9 @@ kSwipeEnergyCost = 7
 
 kMetabolizeEnergyCost = 25
 
-kStabDamage = 37.5
+kStabDamage = 120
 kStabDamageType = kDamageType.Structural
-kStabEnergyCost = 7
+kStabEnergyCost = 15
 
 kStartBlinkEnergyCost = 14
 kBlinkEnergyCost = 32
