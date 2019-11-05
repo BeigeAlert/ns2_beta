@@ -1,4 +1,4 @@
-set_global
+set_global <name> <value>
 
 -- Shotgun rate of fire: (vanilla value is 0.8475)
     Shotgun.kFireDuration <seconds per shot> 
