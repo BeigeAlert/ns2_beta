@@ -20,7 +20,7 @@ local kViewModels = GenerateMarineViewModelPaths("hmg")
 local kIdleChangeThrottle = 0.25
 
 HeavyMachineGun.kReloadAnimationLength = 5.0 -- from art asset.
-HeavyMachineGun.kReloadLength = 2.25 -- desired reload time.
+HeavyMachineGun.kReloadLength = 3.5 -- desired reload time.
 
 -- Sounds
 local kNumberOfVariants = 3
