@@ -38,6 +38,9 @@ local kTimeArmed = 0.1
 -- The amount of time it takes other mines to trigger their detonate sequence when nearby mines explode.
 local kTimedDestruction = 0.5
 
+local kWarmupSound = PrecacheAsset("sound/NS2.fev/marine/common/mine_warmup")
+local kKillNoBoomBoomSound = PrecacheAsset("sound/NS2.fev/marine/structures/recycle")
+
 -- range in which other mines are trigger when detonating
 local kMineChainDetonateRange = 3
 
@@ -215,6 +218,7 @@ function Mine:OnInitialized()
         self:SetHealth(self:GetMaxHealth())
         self:SetArmor(self:GetMaxArmor())
         self:TriggerEffects("mine_spawn")
+        self:PlaySound(kWarmupSound)
         
         InitMixin(self, TriggerMixin)
         self:SetSphere(kMineTriggerRange)
@@ -223,6 +227,18 @@ function Mine:OnInitialized()
     
     self:SetModel(Mine.kModelName)
 
+end
+
+if Server then
+    
+    function Mine:OnDestroy()
+        
+        self:StopSound(kWarmupSound)
+        
+        ScriptActor.OnDestroy(self)
+        
+    end
+    
 end
 
 if Server then
@@ -246,7 +262,8 @@ if Server then
         
         -- Spawn a mine ragdoll if the mine was destroyed without exploding.
         if self.harmless then
-            local ragdoll = CreateMineRagdoll(self)
+            CreateMineRagdoll(self)
+            Shared.PlayWorldSound(nil, kKillNoBoomBoomSound, nil, self:GetOrigin(), 1)
         end
         
         ScriptActor.OnKill(self, attacker, doer, point, direction)
