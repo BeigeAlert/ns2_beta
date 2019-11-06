@@ -1,9 +1,5 @@
 Log("Loading modified Shotgun.lua for NS2 Balance Beta mod.")
 
--- Changes:
--- Re-implemented shotgun damage falloff.
--- Added an adjustable rate of fire for shotgun (will be a fixed value when shipped).
-
 -- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
 -- lua\Weapons\Shotgun.lua
@@ -37,7 +33,7 @@ AddMixinNetworkVars(ShotgunVariantMixin, networkVars)
 
 -- higher numbers reduces the spread
 Shotgun.kStartOffset = 0.1
-Shotgun.kBulletSize = 0.016
+Shotgun.kBulletSize = 0.016 -- not used... leave in just in case some mod uses it.
 
 Shotgun.kDamageFalloffStart = 6 -- in meters, full damage closer than this.
 Shotgun.kDamageFalloffEnd = 12 -- in meters, minimum damage further than this, gradient between start/end.
@@ -47,9 +43,9 @@ Shotgun.kSpreadVectors = {}
 do
     local kShotgunRings =
     {
-        { distance = 0.0, pelletCount = 1, pelletSize = 0.016, pelletDamage = 20 },
-        { distance = 0.5, pelletCount = 5, pelletSize = 0.016, pelletDamage = 16 },
-        { distance = 1.5, pelletCount = 7, pelletSize = 0.032, pelletDamage = 10 },
+        { distance = 0.0, pelletCount = 1, pelletSize = 0.045, pelletDamage = 12.67 },
+        { distance = 0.5, pelletCount = 5, pelletSize = 0.045, pelletDamage = 12.67 },
+        { distance = 1.5, pelletCount = 7, pelletSize = 0.065, pelletDamage = 7.85 },
     }
     
     Shotgun.kTotalDamage = 0
@@ -77,6 +73,7 @@ do
     end
 
     CalculateShotgunSpreadVectors()
+    
 end
 Shotgun.kDesiredTotalDamage = 130
 

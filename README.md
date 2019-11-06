@@ -8,7 +8,9 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
 ## November 5, 2019 Initial Release
 - Marine
     - Shotgun
-        - Damage: 170 -> 130 (change scaled amongst all pellets)
+        - Damage: 170 -> 130 total
+            - Inner shots (middle + middle ring) damage 12.57 each pellet, w/ pellet size of 45mm (up from 16mm)
+            - Outer ring damage 7.70 damage each pellet, w/ pellet size of 65mm (up from 32mm)
         - Fire rate: 1.13 -> 1.48 shots/sec
         - Removed damage falloff (compared to live via extension)
     - HMG
