@@ -49,13 +49,20 @@ local function TraversePath(path)
             return "Invalid path provided! (cannot have blank keys)"
         end
         
+        -- If the key can be converted to a number, do so, so we can change array values.
+        key = tonumber(key) or key
+        
         -- Check if the path is valid up to this point.
         local newParent = parent[key]
         if newParent == nil then
             if pathSoFar == "" then
-                return string.format("Unable to find global value named '%s'", key)
+                return (string.format("Unable to find global value named '%s'", key))
             else
-                return string.format("Unable to find value named '%s' at '%s'", key, pathSoFar)
+                if type(key) == "number" then
+                    return (string.format("No array element found at index %s of '%s'", key, pathSoFar))
+                else
+                    return (string.format("Unable to find value named '%s' at '%s'", key, pathSoFar))
+                end
             end
         end
         
@@ -71,17 +78,25 @@ local function TraversePath(path)
     
     -- Ensure last value exists.
     local lastKey = pathTbl[#pathTbl]
+    
+    -- If the key can be converted to a number, do so, so we can change array values.
+    lastKey = tonumber(lastKey) or lastKey
+    
     if parent[lastKey] == nil then
         if pathSoFar == "" then
-            return string.format("Unable to find global value named '%s'", lastKey)
+            return (string.format("Unable to find global value named '%s'", lastKey))
         else
-            return string.format("Unable to find value named '%s' at '%s'", lastKey, pathSoFar)
+            if type(key) == "number" then
+                return (string.format("No array element found at index %s of '%s'", lastKey, pathSoFar))
+            else
+                return (string.format("Unable to find value named '%s' at '%s'", lastKey, pathSoFar))
+            end
         end
     end
     
     -- Ensure value is numeric (this only works for number values currently).
     if type(parent[lastKey]) ~= "number" then
-        return string.format("Found non-numeric value at '%s.%s'.  This only works for numeric values.", pathSoFar, lastKey)
+        return (string.format("Found non-numeric value at '%s.%s'.  This only works for numeric values.", pathSoFar, lastKey))
     end
     
     -- Success!

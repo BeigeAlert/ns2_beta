@@ -39,42 +39,103 @@ Shotgun.kDamageFalloffStart = 6 -- in meters, full damage closer than this.
 Shotgun.kDamageFalloffEnd = 12 -- in meters, minimum damage further than this, gradient between start/end.
 Shotgun.kDamageFalloffReductionFactor = 1 -- 0% reduction (disabled)
 
+local kBulletsPerShot = 0 -- calculated from rings.
 Shotgun.kSpreadVectors = {}
-do
-    local kShotgunRings =
-    {
-        { distance = 0.0, pelletCount = 1, pelletSize = 0.045, pelletDamage = 12.67 },
-        { distance = 0.5, pelletCount = 5, pelletSize = 0.045, pelletDamage = 12.67 },
-        { distance = 1.5, pelletCount = 7, pelletSize = 0.065, pelletDamage = 7.85 },
-    }
+Shotgun.kShotgunRings =
+{
+    { pelletCount = 1, distance = 0.0, pelletSize = 0.045, pelletDamage = 12.67 },
+    { pelletCount = 5, distance = 0.5, pelletSize = 0.045, pelletDamage = 12.67 },
+    { pelletCount = 7, distance = 1.5, pelletSize = 0.065, pelletDamage = 7.85 },
     
-    Shotgun.kTotalDamage = 0
-    for i=1, #kShotgunRings do
-        local ring = kShotgunRings[i]
-        Shotgun.kTotalDamage = Shotgun.kTotalDamage + ring.pelletCount * ring.pelletDamage
+    -- Extras in case balance team wants to add more rings.  Pellet counts init to 0, so doesn't
+    -- hurt to have them here.
+    { pelletCount = 0, distance = 1.5, pelletSize = 0.065, pelletDamage = 7.85 },
+    { pelletCount = 0, distance = 1.5, pelletSize = 0.065, pelletDamage = 7.85 },
+    { pelletCount = 0, distance = 1.5, pelletSize = 0.065, pelletDamage = 7.85 },
+}
+
+local kTotalDamage = 0
+for i=1, #Shotgun.kShotgunRings do
+    local ring = Shotgun.kShotgunRings[i]
+    kTotalDamage = kTotalDamage + ring.pelletCount * ring.pelletDamage
+end
+
+local kRingFieldNames = {"pelletCount", "distance", "pelletSize", "pelletDamage"}
+local function GetAreSpreadVectorsOutdated()
+    
+    -- Check kShotgunSpreadDistance constant
+    if kShotgunSpreadDistance ~= Shotgun.__lastKShotgunSpreadDistance then
+        return true
     end
-
-    local function CalculateShotgunSpreadVectors()
-        local circle = math.pi * 2.0
-
-        for _, ring in ipairs(kShotgunRings) do
-
-            local radiansPer = circle / ring.pelletCount
-            for pellet = 1, ring.pelletCount do
-
-                local theta = radiansPer * (pellet - 1)
-                local x = math.cos(theta) * ring.distance
-                local y = math.sin(theta) * ring.distance
-                table.insert(Shotgun.kSpreadVectors, { vector = GetNormalizedVector(Vector(x, y, kShotgunSpreadDistance)), size = ring.pelletSize, damage = ring.pelletDamage})
-
+    
+    -- Check the rings table.
+    if Shotgun.__lastKShotgunRings == nil then
+        return true -- not cached yet.
+    end
+    for i=1, #Shotgun.kShotgunRings do
+        local ring = Shotgun.kShotgunRings[i]
+        local lastRing = Shotgun.__lastKShotgunRings[i]
+        for j=1, #kRingFieldNames do
+            local ringFieldName = kRingFieldNames[j]
+            if ring[ringFieldName] ~= lastRing[ringFieldName] then
+                return true
             end
-
         end
     end
 
-    CalculateShotgunSpreadVectors()
+end
+
+local function UpdateCachedLastValues()
+
+    Shotgun.__lastKShotgunSpreadDistance = kShotgunSpreadDistance
+    Shotgun.__lastKShotgunRings = Shotgun.__lastKShotgunRings or {} -- create if missing.
+    for i=1, #Shotgun.kShotgunRings do
+        Shotgun.__lastKShotgunRings[i] = Shotgun.__lastKShotgunRings[i] or {} -- create if missing.
+        local ring = Shotgun.kShotgunRings[i]
+        local lastRing = Shotgun.__lastKShotgunRings[i]
+        for j=1, #kRingFieldNames do
+            local ringFieldName = kRingFieldNames[j]
+            lastRing[ringFieldName] = ring[ringFieldName]
+        end
+    end
+
+end
+
+function Shotgun._RecalculateSpreadVectors()
+    
+    PROFILE("Shotgun._RecalculateSpreadVectors")
+    
+    -- Only recalculate if we really need to.  Allow this to be lazily called from wherever
+    -- Shotgun.kSpreadVectors is used, to ensure it's up-to-date.
+    if not GetAreSpreadVectorsOutdated() then
+        return
+    end
+    
+    UpdateCachedLastValues() -- update cached values so we can detect changes.
+    
+    Shotgun.kSpreadVectors = {} -- reset
+    kBulletsPerShot = 0
+    
+    local circle = math.pi * 2.0
+
+    for _, ring in ipairs(Shotgun.kShotgunRings) do
+
+        local radiansPer = circle / ring.pelletCount
+        kBulletsPerShot = kBulletsPerShot + ring.pelletCount
+        for pellet = 1, ring.pelletCount do
+
+            local theta = radiansPer * (pellet - 1)
+            local x = math.cos(theta) * ring.distance
+            local y = math.sin(theta) * ring.distance
+            table.insert(Shotgun.kSpreadVectors, { vector = GetNormalizedVector(Vector(x, y, kShotgunSpreadDistance)), size = ring.pelletSize, damage = ring.pelletDamage})
+
+        end
+
+    end
     
 end
+Shotgun._RecalculateSpreadVectors()
+
 Shotgun.kDesiredTotalDamage = 130
 
 Shotgun.kModelName = PrecacheAsset("models/marine/shotgun/shotgun.model")
@@ -139,7 +200,7 @@ function Shotgun:GetClipSize()
 end
 
 function Shotgun:GetBulletsPerShot()
-    return kShotgunBulletsPerShot
+    return kBulletsPerShot
 end
 
 function Shotgun:GetRange()
@@ -152,7 +213,7 @@ function Shotgun:GetTracerEffectFrequency()
 end
 
 function Shotgun:GetBulletDamage()
-    return kShotgunDamage
+    return 0 -- not used (just a required override of ClipWeapon).
 end
 
 function Shotgun:GetHasSecondary()
@@ -246,13 +307,16 @@ function Shotgun:FirePrimary(player)
     -- Filter ourself out of the trace so that we don't hit ourselves.
     local filter = EntityFilterTwo(player, self)
     local range = self:GetRange()
-
+    
+    -- Ensure spread vectors are up-to-date.
+    Shotgun._RecalculateSpreadVectors()
+    
     local numberBullets = self:GetBulletsPerShot()
 
     self:TriggerEffects("shotgun_attack_sound")
     self:TriggerEffects("shotgun_attack")
     
-    local kDamageMult = Shotgun.kDesiredTotalDamage / Shotgun.kTotalDamage
+    local kDamageMult = Shotgun.kDesiredTotalDamage / kTotalDamage
     
     for bullet = 1, math.min(numberBullets, #self.kSpreadVectors) do
 
