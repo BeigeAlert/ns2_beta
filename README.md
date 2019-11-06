@@ -12,6 +12,8 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
         - Outer ring damage 7.70 damage each pellet, w/ pellet size of 65mm (up from 32mm)
         - (total damage remains the same, just redistributed amongst pellets)
         - Shotgun pellet values can now be tweaked in real-time.
+    - Embryo
+        - Fixed that incorrect gestation time was being used (debug value got left in, oops!)
 
 ## November 5, 2019 Initial Release
 - Marine

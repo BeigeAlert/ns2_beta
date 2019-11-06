@@ -434,9 +434,6 @@ function Embryo:SetGestationData(techIds, previousTechId, healthScalar, armorSca
         self.gestationTime = 5
     end
     
-    -- DEBUG
-    self.gestationTime = 10
-    
     self.evolveTime = 0
     
     local maxHealth = kEggHealth
