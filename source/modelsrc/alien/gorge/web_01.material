@@ -1,4 +1,4 @@
-shader = "models/alien/gorge/web_model.surface_shader"
+shader = "models/alien/alien_alpha.surface_shader"
 albedoMap = "models/alien/gorge/web_01.dds"
 normalMap = "models/alien/gorge/web_01_normal.dds"
 specularMap = "models/alien/gorge/web_01_spec.dds"

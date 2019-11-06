@@ -25,6 +25,7 @@ Script.Load("lua/ClogFallMixin.lua")
 Script.Load("lua/Mixins/BaseModelMixin.lua")
 Script.Load("lua/Mixins/ModelMixin.lua")
 Script.Load("lua/EffectsMixin.lua")
+Script.Load("lua/CloakableMixin.lua")
 
 class 'Web' (Entity)
 
@@ -33,6 +34,8 @@ Web.kMapName = "web"
 Web.kRootModelName = PrecacheAsset("models/alien/gorge/web_helper.model")
 Web.kModelName = PrecacheAsset("models/alien/gorge/web.model")
 local kAnimationGraph = PrecacheAsset("models/alien/gorge/web.animation_graph")
+
+local kEnemyDetectInterval = 0.2
 
 local networkVars =
 {
@@ -50,6 +53,7 @@ AddMixinNetworkVars(TechMixin, networkVars)
 AddMixinNetworkVars(BaseModelMixin, networkVars)
 AddMixinNetworkVars(ModelMixin, networkVars)
 AddMixinNetworkVars(TeamMixin, networkVars)
+AddMixinNetworkVars(CloakableMixin, networkVars)
 AddMixinNetworkVars(LiveMixin, networkVars)
 AddMixinNetworkVars(LOSMixin, networkVars)
 
@@ -69,7 +73,7 @@ local function CheckWebablesInRange(self)
 
     local webables = GetEntitiesWithMixinForTeamWithinRange("Webable", GetEnemyTeamNumber(self:GetTeamNumber()), self:GetOrigin(), self.checkRadius)
     self.enemiesInRange = #webables > 0
-    self:SetUpdates(self.enemiesInRange)
+    self:SetUpdates(self.enemiesInRange or not self.fullyCloaked)
 
     return true
 
@@ -86,6 +90,7 @@ function Web:OnCreate()
     InitMixin(self, TeamMixin)
     InitMixin(self, LiveMixin)
     InitMixin(self, EntityChangeMixin)
+    InitMixin(self, CloakableMixin)
     InitMixin(self, LOSMixin)
 
     InitMixin(self, ClogFallMixin)
@@ -108,12 +113,67 @@ function Web:OnCreate()
     
 end
 
+local function GetAreEnemiesInRange(self)
+    
+    PROFILE("Web:GetAreEnemiesInRange")
+    
+    -- Since it's a web, it's not just one point we need to check around, it's a radius around a
+    -- line, so kind of a pill-shape.  First, gather entities with a range of the middle that fully
+    -- encompasses all entities within the pill shape, then do more fine-grained checks to see if
+    -- they're actually in-range.
+    local midPoint = (self:GetOrigin() + self.endPoint) * 0.5
+    local broadRange = self.length * 0.5 + self.kFullVisDistance
+    local ents = GetEntitiesForTeamWithinRange("Player", GetEnemyTeamNumber(self:GetTeamNumber()), midPoint, broadRange)
+    if #ents == 0 then
+        return false
+    end
+    
+    -- Get the distance between the web line segment and each entity.
+    local webVector = (self.endPoint - self:GetOrigin()) / self.length
+    local rangeSq = self.kFullVisDistance * self.kFullVisDistance
+    for i=1, #ents do
+        local ent = ents[i]
+        local entPos = ent:GetOrigin()
+        local t = Clamp(webVector:DotProduct(entPos - self:GetOrigin()), 0, self.length)
+        local nearestPos = webVector * t + self:GetOrigin()
+        local distSq = (entPos - nearestPos):GetLengthSquared()
+        
+        if distSq <= rangeSq then
+            return true
+        end
+        
+    end
+    
+    return false
+
+end
+
+local function ScanForNearbyEnemies(self)
+    
+    PROFILE("Web:ScanForNearbyEnemies")
+    
+    if GetAreEnemiesInRange(self) then
+    
+        self:TriggerUncloak()
+    
+    end
+    
+    return (self:GetIsAlive()) -- stop callback when dead.
+    
+end
+
 function Web:OnInitialized()
 
     self:SetModel(Web.kModelName, kAnimationGraph)
     
     self:SetPhysicsType(PhysicsType.Kinematic)
-    self:SetPhysicsGroup(PhysicsGroup.WebsGroup)  
+    self:SetPhysicsGroup(PhysicsGroup.WebsGroup)
+    
+    if Server then
+        
+        self:AddTimedCallback(ScanForNearbyEnemies, kEnemyDetectInterval)
+        
+    end
   
 end
 
@@ -205,49 +265,29 @@ function Web:OnDestroy()
 
 end
 
+function Web:GetDistortMaterialName()
+    return kWebDistortMaterial
+end
+
 if Client then
     
     function Web:OnUpdateRender()
-    
-        -- If we're not an enemy, (eg we're an alien or a spectator), we should be able to see webs
-        -- at all times.  Otherwise, webs sort of fade in or out depending on distance.  Set the
-        -- shader inputs for that here.  Ideally this would just happen whenever the player changes
-        -- teams but... we don't have an easy way of detecting that in this engine... :(
-        local player = Client.GetLocalPlayer()
-        if not player then
-            return
+        
+        -- TODO these values should be baked into the shader, but they're exposed and set here every
+        -- frame so that balance team can tweak values as they please.
+        if self.distortMaterial then
+            self.distortMaterial:SetParameter("noVisDist", Web.kZeroVisDistance)
+            self.distortMaterial:SetParameter("fullVisDist", Web.kFullVisDistance)
+            self.distortMaterial:SetParameter("distortionIntensity", Web.kDistortionIntensity)
         end
         
-        local renderModel = self:GetRenderModel()
-        if not renderModel then
-            return
-        end
-        
-        local shouldDistort = GetIsMarineUnit(player)
-        if shouldDistort and not self._distortRenderMaterial then
-            self._distortRenderMaterial = Client.CreateRenderMaterial()
-            renderModel:AddMaterial(self._distortRenderMaterial)
-            self._distortRenderMaterial:SetMaterial(kWebDistortMaterial)
-        elseif not shouldDistort and self._distortRenderMaterial then
-            renderModel:RemoveMaterial(self._distortRenderMaterial)
-            Client.DestroyRenderMaterial(self._distortRenderMaterial)
-            self._distortRenderMaterial = nil
-        end
-        
-        -- This should be set once, upon creation, and be done -- but we'll update every frame here
-        -- for the benefit of the balance team, so they can tweak the values in real-time.
-        if self._distortRenderMaterial then
-            self._distortRenderMaterial:SetParameter("noVisDist", Web.kZeroVisDistance)
-            self._distortRenderMaterial:SetParameter("fullVisDist", Web.kFullVisDistance)
-            self._distortRenderMaterial:SetParameter("distortionIntensity", Web.kDistortionIntensity)
-            renderModel:SetMaterialParameter("opacityMult", 0)
-        else
-            renderModel:SetMaterialParameter("opacityMult", 1)
-        end
-    
     end
+    
+end
 
-end   
+function Web:GetIsCamouflaged()
+    return true
+end
 
 local function GetDistance(self, fromPlayer)
 
@@ -344,7 +384,7 @@ if Server then
     function Web:OnUpdate(deltaTime)
 
         if self.enemiesInRange then        
-            CheckForIntersection(self)            
+            CheckForIntersection(self)
         end
         
         if not self.triggerSpawnEffect then
