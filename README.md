@@ -9,6 +9,9 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
 - Alien
     - Regeneration
         - No longer heals while in combat (back to current live-build behavior).
+    - Gorge
+        - Hydra
+            - Damage 10 -> 5.
 
 ## November 6, 2019
 - Marine

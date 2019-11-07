@@ -1,13 +1,5 @@
 Log("Loading modified Balance.lua for NS2 Balance Beta mod.")
 
--- Changes:
--- Nano shield time _just for players_ reduced to 3 seconds from 5.
--- Changed minigun damage type to heavy.
--- Changed minigun damage amount from 10 to 6.
--- Increased lerk spikes size from 45mm to 60mm.
--- Set webbed duration to 2.5 from 1.5
--- Changed stab damage type to Structural, and set damage and energy cost to match swipe.
-
 -- ======= Copyright (c) 2003-2012, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
 -- lua\Balance.lua
@@ -788,7 +780,7 @@ kCragHealWaveCost = 3
 kHealWaveCooldown = 6
 kMatureCragMaxEnergy = 150
 
-kHydraDamage = 10
+kHydraDamage = 5
 kHydraAttackDamageType = kDamageType.Normal
 
 kWhipInitialEnergy = 25  kWhipMaxEnergy = 100
