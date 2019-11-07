@@ -5,6 +5,11 @@ This mod contains various balance changes based on various ideas of the NS2 bala
 
 Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
 
+## November 6, 2019 (#2)
+- Alien
+    - Regeneration
+        - No longer heals while in combat (back to current live-build behavior).
+
 ## November 6, 2019
 - Marine
     - Shotgun

@@ -1,11 +1,5 @@
 Log("Loading modified BalanceMisc.lua for NS2 Balance Beta mod.")
 
--- Changes:
--- Changed weapon expiration time from 25 -> 16 seconds.
--- Changed crag, shift, and shade supply cost from 25 -> 20.
--- Decreased skulk vampirism effectiveness (down to 14% from 20%)
--- Being under fire no longer stops regeneration from working.
-
 -- ======= Copyright (c) 2003-2011, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
 -- lua\BalanceMisc.lua
@@ -259,7 +253,7 @@ kOnFireHealingScalar = 0.5
 kCombatTimeOut = 3
 
 -- when under fire self healing (innate healing or through upgrade) is multiplied with this value
-kAlienRegenerationCombatModifier = 1
+kAlienRegenerationCombatModifier = 0
 
 kCarapaceSpeedReduction = 0.0
 kSkulkCarapaceSpeedReduction = 0 --0.08
