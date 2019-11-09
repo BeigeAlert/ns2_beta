@@ -35,9 +35,9 @@ AddMixinNetworkVars(ShotgunVariantMixin, networkVars)
 Shotgun.kStartOffset = 0.1
 Shotgun.kBulletSize = 0.016 -- not used... leave in just in case some mod uses it.
 
-Shotgun.kDamageFalloffStart = 6 -- in meters, full damage closer than this.
+Shotgun.kDamageFalloffStart = 8 -- in meters, full damage closer than this.
 Shotgun.kDamageFalloffEnd = 12 -- in meters, minimum damage further than this, gradient between start/end.
-Shotgun.kDamageFalloffReductionFactor = 1 -- 0% reduction (disabled)
+Shotgun.kDamageFalloffReductionFactor = 0.8 -- 20% reduction
 
 local kBulletsPerShot = 0 -- calculated from rings.
 Shotgun.kSpreadVectors = {}
@@ -136,13 +136,13 @@ function Shotgun._RecalculateSpreadVectors()
 end
 Shotgun._RecalculateSpreadVectors()
 
-Shotgun.kDesiredTotalDamage = 130
+Shotgun.kDesiredTotalDamage = 140
 
 Shotgun.kModelName = PrecacheAsset("models/marine/shotgun/shotgun.model")
 local kViewModels = GenerateMarineViewModelPaths("shotgun")
 
 local kShotgunFireAnimationLength = 0.8474577069282532 -- defined by art asset.
-Shotgun.kFireDuration = 0.62 -- TODO delete kShotgunFireRate in Balance.lua
+Shotgun.kFireDuration = kShotgunFireAnimationLength -- same duration for now.
 
 local kMuzzleEffect = PrecacheAsset("cinematics/marine/shotgun/muzzle_flash.cinematic")
 local kMuzzleAttachPoint = "fxnode_shotgunmuzzle"
