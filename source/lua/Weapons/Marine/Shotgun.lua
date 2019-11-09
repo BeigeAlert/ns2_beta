@@ -43,9 +43,9 @@ local kBulletsPerShot = 0 -- calculated from rings.
 Shotgun.kSpreadVectors = {}
 Shotgun.kShotgunRings =
 {
-    { pelletCount = 1, distance = 0.0, pelletSize = 0.045, pelletDamage = 12.67 },
-    { pelletCount = 5, distance = 0.5, pelletSize = 0.045, pelletDamage = 12.67 },
-    { pelletCount = 7, distance = 1.5, pelletSize = 0.065, pelletDamage = 7.85 },
+    { pelletCount = 1, distance = 0.0, pelletSize = 0.016, pelletDamage = 11.33 },
+    { pelletCount = 8, distance = 0.5, pelletSize = 0.016, pelletDamage = 11.33 },
+    { pelletCount = 6, distance = 1.0, pelletSize = 0.016, pelletDamage = 11.33 },
     
     -- Extras in case balance team wants to add more rings.  Pellet counts init to 0, so doesn't
     -- hurt to have them here.

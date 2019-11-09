@@ -11,6 +11,10 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
         - Reverted fire rate change.
         - Base damage now 140.
         - Introduced a damage falloff that ramps up to 20% over 4m after 8m.
+        - Changed shotgun pellet size back to 16mm (from 45mm for inner pellets and 65mm for outer pellets)
+        - Pellet damage is uniform for all pellets.
+        - Middle ring now has 8 pellets, outer ring now has 6 pellets.
+        - Outer ring distance is 2/3 as spread out as much as before.
 
 ## November 7, 2019
 - Disabled ranking, so no need to worry about your ELO when playing the balance beta! :)
