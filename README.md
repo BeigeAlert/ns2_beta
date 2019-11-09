@@ -5,6 +5,13 @@ This mod contains various balance changes based on various ideas of the NS2 bala
 
 Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
 
+## November 9, 2019
+- Marine
+    - Shotgun
+        - Reverted fire rate change.
+        - Base damage now 140.
+        - Introduced a damage falloff that ramps up to 20% over 4m after 8m.
+
 ## November 7, 2019
 - Disabled ranking, so no need to worry about your ELO when playing the balance beta! :)
 
