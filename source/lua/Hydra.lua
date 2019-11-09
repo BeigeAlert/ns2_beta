@@ -63,10 +63,10 @@ Hydra.kAnimationGraph = PrecacheAsset("models/alien/hydra/hydra.animation_graph"
 Hydra.kOffInfestationAutoBuildRate = 0.75
 
 Hydra.kSpikeSpeed = 50
-Hydra.kNearSpread = Math.Radians(2)
-Hydra.kFarSpread = Math.Radians(4)
-Hydra.kNearDistance = 2
-Hydra.kFarDistance = 10
+Hydra.kNearSpread = 0
+Hydra.kFarSpread = Math.Radians(8)
+Hydra.kNearDistance = 8
+Hydra.kFarDistance = 12
 Hydra.kRateOfFire = 0.8
 Hydra.kTargetVelocityFactor = 1.0 -- Increase this to overshoot fast moving targets (jetpackers).
 Hydra.kRange = 17.78              -- From NS1 (also "alert" range)

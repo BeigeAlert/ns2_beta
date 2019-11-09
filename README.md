@@ -15,6 +15,10 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
         - Pellet damage is uniform for all pellets.
         - Middle ring now has 8 pellets, outer ring now has 6 pellets.
         - Outer ring distance is 2/3 as spread out as much as before.
+- Alien
+    - Gorge
+        - Hydra
+            - Added a spread (inaccuracy) to the hydra's shots starting at 8 meters, and ramping up to maximum iniaccuracy at 12 meters.  Inaccuracy ramps between 0 and 8 degrees.
 
 ## November 7, 2019
 - Disabled ranking, so no need to worry about your ELO when playing the balance beta! :)

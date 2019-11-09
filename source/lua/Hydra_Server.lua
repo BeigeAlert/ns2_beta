@@ -39,7 +39,28 @@ function Hydra:CreateSpikeProjectile()
 
     local barrelPos = self:GetBarrelPoint()
     local targetPos = self.target:GetEngagementPoint()
-    local trace = Shared.TraceRay(barrelPos, targetPos, CollisionRep.Damage, PhysicsMask.Bullets, EntityFilterOneAndIsa(self, "Hydra"))
+    local targetVector = (targetPos - barrelPos):GetUnit()
+    
+    -- Apply some randomness to the hydra's targeting so that it is less accurate after a certain
+    -- distance.  Use flat distance so that elevation isn't taken into account.
+    local flatDistance = ((barrelPos - targetPos) * Vector(1, 0, 1)):GetLength()
+    
+    local spreadFactor = 0
+    if Hydra.kFarDistance == Hydra.kNearDistance then
+        spreadFactor = flatDistance > Hydra.kFarDistance and 1 or 0
+    else
+        spreadFactor = Clamp((flatDistance - Hydra.kNearDistance) / (Hydra.kFarDistance - Hydra.kNearDistance), 0, 1)
+    end
+    
+    local spread = (Hydra.kFarSpread - Hydra.kNearSpread) * spreadFactor + Hydra.kNearSpread
+    
+    if spread > 0 then
+        local fireCoords = Coords.GetLookIn(barrelPos, targetVector)
+        targetVector = CalculateSpread(fireCoords, spread, math.random)
+    end
+    
+    local endPt = barrelPos + targetVector * Hydra.kRange
+    local trace = Shared.TraceRay(barrelPos, endPt, CollisionRep.Damage, PhysicsMask.Bullets, EntityFilterOneAndIsa(self, "Hydra"))
     
     if trace.fraction >= 1 then
         return -- hit nothing
@@ -55,7 +76,7 @@ function Hydra:CreateSpikeProjectile()
         surface = trace.surface
     end
     
-    self:DoDamage(Hydra.kDamage, trace.entity, trace.endPoint, GetNormalizedVector(targetPos - barrelPos), surface, false, true)
+    self:DoDamage(Hydra.kDamage, trace.entity, trace.endPoint, targetVector, surface, false, true)
 
 end
 
