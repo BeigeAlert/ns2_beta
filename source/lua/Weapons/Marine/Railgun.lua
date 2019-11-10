@@ -47,7 +47,7 @@ Railgun.kChargeTimeForMaxPower = 1.0
 Railgun.kForceFireTime = 0.5
 
 Railgun.kMinPowerDamage = 25
-Railgun.kMaxPowerDamage = 60
+Railgun.kMaxPowerDamage = 50
 
 Railgun.kTapShotDamageType = kDamageType.Normal
 Railgun.kChargedShotDamageType = kDamageType.Heavy

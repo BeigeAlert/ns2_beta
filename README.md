@@ -17,7 +17,7 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
         - Outer ring distance is 2/3 as spread out as much as before.
     - Exosuit
         - Railgun
-            - Damage increased by 10 for all charge levels.
+            - Minimum damage increased by 10 (maximum damage unchanged).
             - Heavy damage kicks in at 75% charge now, instead of 100% charge.
             - Full charge time is 1s (down from 1.5s)
             - Distortion tracer effect and steam effects no longer play if the shot didn't deal heavy damage (75% charge).
