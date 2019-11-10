@@ -76,6 +76,7 @@ Skulk.kBunnyHopForce = 7
 Skulk.kVerticalBunnyHopForce = 2.15
 Skulk.kBunnyHopMaxSpeed = 8.5
 Skulk.kBunnyHopMaxSpeedCelerityBonus = 0.6
+Skulk.kBunnyHopMaxGroundTouchDuration = 0.5
 
 Skulk.kWallJumpMaxSpeed = 11
 Skulk.kWallJumpMaxSpeedCelerityBonus = 1.2
@@ -581,7 +582,7 @@ function Skulk:ModifyJump(input, velocity, jumpVelocity)
 
         self.timeLastWallJump = Shared.GetTime()
 
-    elseif not self:GetRecentlyJumped() then
+    elseif not self:GetRecentlyJumped() and self:GetTimeGroundTouched() > Shared.GetTime() - Skulk.kBunnyHopMaxGroundTouchDuration then
 
         local minimumForce = Skulk.kMinBunnyHopForce
         local scalableForce = Skulk.kBunnyHopForce

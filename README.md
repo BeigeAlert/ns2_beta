@@ -30,6 +30,9 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
             - Webs now decloak from further away (5m instead of 2.5m)
             - Increased the web snare effect to 66% (movement speed is 34% after being webbed).
             - Web snare effect wears off gradually, rather than all at once at the end.
+    - Skulk
+        - Skulk sneak speed reduced from 4.785 -> 4.0
+        - Skulks no longer receive a speed boost when jumping off flat ground, except when bunny-hopping.
 
 ## November 7, 2019
 - Disabled ranking, so no need to worry about your ELO when playing the balance beta! :)
