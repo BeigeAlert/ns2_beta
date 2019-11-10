@@ -41,17 +41,18 @@ Railgun.kCooldownTime = 0.3
 -- His name sounds good in your ear
 -- But when you say it, you mustn't fear...
 -- 'cause his name can be said by anyone...
-Railgun.kChargeTimeForMaxPower = 1.5
+Railgun.kChargeTimeForMaxPower = 1.0
 
 -- Extra time after reaching max power before the shot is forced to be released.
 Railgun.kForceFireTime = 0.5
 
-Railgun.kTapShotMinPowerDamage = 15
-Railgun.kTapShotMaxPowerDamage = 50 -- can't actually reach this amount, but juuuust shy of it.
-Railgun.kChargedShotDamage = 50
+Railgun.kMinPowerDamage = 25
+Railgun.kMaxPowerDamage = 60
 
 Railgun.kTapShotDamageType = kDamageType.Normal
 Railgun.kChargedShotDamageType = kDamageType.Heavy
+
+Railgun.kChargedShotChargeThreshold = 0.75 -- shot is "charged" when @ 75% charge or higher.
 
 Railgun.kFireAnimationLength = 1.5 -- from art asset.
 
@@ -230,20 +231,18 @@ local function ExecuteShot(self, startPoint, endPoint, player)
     local chargeDuration = Shared.GetTime() - self.timeChargeStarted
     local chargeFraction = Clamp(chargeDuration / Railgun.kChargeTimeForMaxPower, 0, 1)
     
-    local damage
-    local maxTargetsHit
-    if chargeFraction == 1 then
-        damage = Railgun.kChargedShotDamage
+    local damage = chargeFraction * (Railgun.kMaxPowerDamage - Railgun.kMinPowerDamage) + Railgun.kMinPowerDamage
+    local chargedShot
+    if chargeFraction >= Railgun.kChargedShotChargeThreshold then
         self.damageType = Railgun.kChargedShotDamageType
-        maxTargetsHit = 20 -- should be enough to hit everything.
+        chargedShot = true
     else
-        damage = chargeFraction * (Railgun.kTapShotMaxPowerDamage - Railgun.kTapShotMinPowerDamage) + Railgun.kTapShotMinPowerDamage
         self.damageType = Railgun.kTapShotDamageType
-        maxTargetsHit = 1 -- no penetration for tap shots.
+        chargedShot = false
     end
     
     local extents = GetDirectedExtentsForDiameter(direction, Railgun.kBulletSize)
-    
+    local maxTargetsHit = chargedShot and 20 or 1
     if trace.fraction < 1 then
         
         -- 20 traces should be enough...
@@ -276,14 +275,14 @@ local function ExecuteShot(self, startPoint, endPoint, player)
             startPoint = Vector(capsuleTrace.endPoint) + direction * extents.x * 3
         
         end
-        
-        -- for tracer
-        local effectFrequency = self:GetTracerEffectFrequency()
-        local showTracer = (math.random() < effectFrequency)
-        self:DoDamage(0, nil, trace.endPoint + hitPointOffset, direction, trace.surface, false, showTracer)
-        
-        if Client and showTracer then
-            TriggerFirstPersonTracer(self, trace.endPoint)
+    
+        -- Only show weapon tracer and steam effects if shot was a "charged shot".
+        if chargedShot then
+            self:DoDamage(0, nil, trace.endPoint + hitPointOffset, direction, trace.surface, false, true)
+            if Client then
+                TriggerFirstPersonTracer(self, trace.endPoint)
+                TriggerSteamEffect(self, player)
+            end
         end
     
     end
@@ -313,10 +312,6 @@ local function Shoot(self, leftSide)
         
         local endPoint = startPoint + spreadDirection * Railgun.kRange
         ExecuteShot(self, startPoint, endPoint, player)
-        
-        if Client then
-            TriggerSteamEffect(self, player)
-        end
         
         self:LockGun()
         self.lockCharging = true
