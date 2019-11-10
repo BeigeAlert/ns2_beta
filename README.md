@@ -21,11 +21,15 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
             - Heavy damage kicks in at 75% charge now, instead of 100% charge.
             - Full charge time is 1s (down from 1.5s)
             - Distortion tracer effect and steam effects no longer play if the shot didn't deal heavy damage (75% charge).
-    
 - Alien
     - Gorge
         - Hydra
             - Added a spread (inaccuracy) to the hydra's shots starting at 8 meters, and ramping up to maximum iniaccuracy at 12 meters.  Inaccuracy ramps between 0 and 8 degrees.
+        - Webs
+            - Webs now break on contact.
+            - Webs now decloak from further away (5m instead of 2.5m)
+            - Increased the web snare effect to 66% (movement speed is 34% after being webbed).
+            - Web snare effect wears off gradually, rather than all at once at the end.
 
 ## November 7, 2019
 - Disabled ranking, so no need to worry about your ELO when playing the balance beta! :)

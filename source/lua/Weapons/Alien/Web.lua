@@ -43,8 +43,8 @@ local networkVars =
     variant = "enum kGorgeVariant"
 }
 
-Web.kZeroVisDistance = 5.0
-Web.kFullVisDistance = 2.5
+Web.kZeroVisDistance = 7.5
+Web.kFullVisDistance = 5.0
 Web.kDistortionIntensity = 0.0625
 
 local kWebDistortMaterial = PrecacheAsset("models/alien/gorge/web_distort.material")
@@ -73,7 +73,6 @@ local function CheckWebablesInRange(self)
 
     local webables = GetEntitiesWithMixinForTeamWithinRange("Webable", GetEnemyTeamNumber(self:GetTeamNumber()), self:GetOrigin(), self.checkRadius)
     self.enemiesInRange = #webables > 0
-    self:SetUpdates(self.enemiesInRange or not self.fullyCloaked)
 
     return true
 
@@ -329,7 +328,7 @@ local function CheckForIntersection(self, fromPlayer)
               
                 fromPlayer:SetWebbed(kWebbedDuration)
                 
-                if Server and fromPlayer:isa("Exo") then
+                if Server then
                     DestroyEntity(self)
                 end
           

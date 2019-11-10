@@ -405,7 +405,7 @@ kBileBombDotInterval = 0.4
 kWebBuildCost = 0
 kWebbedDuration = 2.5
 kWebbedParasiteDuration = 10
-kWebSlowVelocityScalar = 0.75 --Note: Exos override this
+kWebSlowVelocityScalar = 0.34 --Note: Exos override this
 
 kLerkBiteDamage = 60
 kBitePoisonDamage = 6 -- per second
