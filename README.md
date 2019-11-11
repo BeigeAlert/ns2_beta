@@ -5,6 +5,11 @@ This mod contains various balance changes based on various ideas of the NS2 bala
 
 Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
 
+## November 10, 2019
+- Marine
+    - Shotgun
+        - Base damage now 160.
+
 ## November 9, 2019
 - Marine
     - Shotgun

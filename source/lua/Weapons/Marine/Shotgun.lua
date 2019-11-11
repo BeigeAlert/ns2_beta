@@ -136,7 +136,7 @@ function Shotgun._RecalculateSpreadVectors()
 end
 Shotgun._RecalculateSpreadVectors()
 
-Shotgun.kDesiredTotalDamage = 140
+Shotgun.kDesiredTotalDamage = 160
 
 Shotgun.kModelName = PrecacheAsset("models/marine/shotgun/shotgun.model")
 local kViewModels = GenerateMarineViewModelPaths("shotgun")
