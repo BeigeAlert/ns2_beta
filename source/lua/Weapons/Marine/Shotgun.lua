@@ -37,21 +37,21 @@ Shotgun.kBulletSize = 0.016 -- not used... leave in just in case some mod uses i
 
 Shotgun.kDamageFalloffStart = 8 -- in meters, full damage closer than this.
 Shotgun.kDamageFalloffEnd = 12 -- in meters, minimum damage further than this, gradient between start/end.
-Shotgun.kDamageFalloffReductionFactor = 0.8 -- 20% reduction
+Shotgun.kDamageFalloffReductionFactor = 1 -- 0% reduction
 
 local kBulletsPerShot = 0 -- calculated from rings.
 Shotgun.kSpreadVectors = {}
 Shotgun.kShotgunRings =
 {
-    { pelletCount = 1, distance = 0.0, pelletSize = 0.045, pelletDamage = 12.67 },
-    { pelletCount = 5, distance = 0.5, pelletSize = 0.045, pelletDamage = 12.67 },
-    { pelletCount = 7, distance = 1.5, pelletSize = 0.065, pelletDamage =  7.85 },
+    { pelletCount = 1, distance = 0.0000, pelletSize = 0.016, pelletDamage = 10, thetaOffset = 0},
+    { pelletCount = 4, distance = 0.3500, pelletSize = 0.016, pelletDamage = 10, thetaOffset = 0},
+    { pelletCount = 4, distance = 0.6364, pelletSize = 0.016, pelletDamage = 10, thetaOffset = math.pi * 0.25},
+    { pelletCount = 4, distance = 1.0000, pelletSize = 0.016, pelletDamage = 10, thetaOffset = 0},
+    { pelletCount = 4, distance = 1.1314, pelletSize = 0.016, pelletDamage = 10, thetaOffset = math.pi * 0.25},
     
     -- Extras in case balance team wants to add more rings.  Pellet counts init to 0, so doesn't
     -- hurt to have them here.
-    { pelletCount = 0, distance = 1.5, pelletSize = 0.065, pelletDamage = 7.85 },
-    { pelletCount = 0, distance = 1.5, pelletSize = 0.065, pelletDamage = 7.85 },
-    { pelletCount = 0, distance = 1.5, pelletSize = 0.065, pelletDamage = 7.85 },
+    { pelletCount = 0, distance = 1.5000, pelletSize = 0.016, pelletDamage = 10 },
 }
 
 local kTotalDamage = 0
@@ -124,7 +124,7 @@ function Shotgun._RecalculateSpreadVectors()
         kBulletsPerShot = kBulletsPerShot + ring.pelletCount
         for pellet = 1, ring.pelletCount do
 
-            local theta = radiansPer * (pellet - 1)
+            local theta = radiansPer * (pellet - 1) + (ring.thetaOffset or 0)
             local x = math.cos(theta) * ring.distance
             local y = math.sin(theta) * ring.distance
             table.insert(Shotgun.kSpreadVectors, { vector = GetNormalizedVector(Vector(x, y, kShotgunSpreadDistance)), size = ring.pelletSize, damage = ring.pelletDamage})
@@ -136,7 +136,7 @@ function Shotgun._RecalculateSpreadVectors()
 end
 Shotgun._RecalculateSpreadVectors()
 
-Shotgun.kDesiredTotalDamage = 160
+Shotgun.kDesiredTotalDamage = 170
 
 Shotgun.kModelName = PrecacheAsset("models/marine/shotgun/shotgun.model")
 local kViewModels = GenerateMarineViewModelPaths("shotgun")

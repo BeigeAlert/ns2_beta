@@ -282,7 +282,7 @@ kShotgunDamage = 11.33
 kShotgunDamageType = kDamageType.Normal
 kShotgunClipSize = 6
 kShotgunBulletsPerShot = 13
-kShotgunSpreadDistance = 10 --Gets used as z-axis value for spread vectors before normalization
+kShotgunSpreadDistance = 8.5 --Gets used as z-axis value for spread vectors before normalization
 
 kNadeLauncherClipSize = 4
 
