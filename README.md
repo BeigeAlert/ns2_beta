@@ -14,6 +14,11 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
         - Thrusters can be used at any time -- no longer have to wait for a full recharge.
             - There is a small 0.75 second cooldown between thruster usages though, to prevent spamming.
             - Thruster fuel now takes 0.75 seconds to begin recharging after last usage.
+    - Shotgun
+        - Shotgun pellet counts changes reverted (back to 1, 5, 7)
+        - Shotgun pellet size changes reverted (back to 45mm, 45mm, 65mm).
+        - Shotgun pellet damage changes reverted (back to ~ 15.48x1, 15.48x5, 9.59x7)
+        - (Total damage for a full hit is unchanged).
 
 ## November 10, 2019
 - Marine
