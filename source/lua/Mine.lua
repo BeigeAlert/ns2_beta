@@ -26,6 +26,7 @@ Script.Load("lua/LOSMixin.lua")
 Script.Load("lua/SleeperMixin.lua")
 Script.Load("lua/ParasiteMixin.lua")
 Script.Load("lua/MarineOutlineMixin.lua")
+Script.Load("lua/PointGiverMixin.lua")
 Script.Load("lua/Ragdoll.lua")
 
 class 'Mine' (ScriptActor)
@@ -72,6 +73,7 @@ function Mine:OnCreate()
     InitMixin(self, ParasiteMixin)
     InitMixin(self, EntityChangeMixin)
     InitMixin(self, LOSMixin)
+    InitMixin(self, PointGiverMixin)
     
     if Client then
         InitMixin(self, MarineOutlineMixin)
@@ -85,7 +87,7 @@ function Mine:OnCreate()
         self:SetUpdates(true, kDefaultUpdateRate)
     
     end
-
+    
 end
 
 function Mine:GetReceivesStructuralDamage()

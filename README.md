@@ -19,6 +19,8 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
         - Shotgun pellet size changes reverted (back to 45mm, 45mm, 65mm).
         - Shotgun pellet damage changes reverted (back to ~ 15.48x1, 15.48x5, 9.59x7)
         - (Total damage for a full hit is unchanged).
+    - Mines
+        - Mines are now worth 5 points apiece.
 
 ## November 10, 2019
 - Marine

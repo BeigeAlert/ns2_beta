@@ -93,7 +93,7 @@ kMatureHiveHealth = 6000 kMatureHiveArmor = 1400
         
 kDrifterHealth = 300    kDrifterArmor = 20    kDrifterPointValue = 5
 kMACHealth = 300    kMACArmor = 50    kMACPointValue = 2
-kMineHealth = 30    kMineArmor = 5    kMinePointValue = 1
+kMineHealth = 30    kMineArmor = 5    kMinePointValue = 5
         
 kExtractorHealth = 2400 kExtractorArmor = 1050 kExtractorPointValue = 15
 kExtractorArmorAddAmount = 700 -- not used
