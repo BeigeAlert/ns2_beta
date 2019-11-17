@@ -105,8 +105,8 @@ local kExtentsCrouchShrinkAmount = 0
 
 local kThrustersCooldownTime = 2.5
 local kThrusterDuration = 1.5
-
-local kThrusterMinimumFuel = 0.99
+local kThrusterRefuelCooldownTime = 0.75
+local kMinTimeBetweenThrusterActivations = 0.75
 
 local kDeploy2DSound = PrecacheAsset("sound/NS2.fev/marine/heavy/deploy_2D")
 
@@ -1174,7 +1174,8 @@ function Exo:UpdateThrusters(input)
                 or input.move.z > 0 and kExoThrusterMode.Horizontal
                 or nil
                 
-            if desiredMode and self:GetFuel() >= kThrusterMinimumFuel then
+            local now = Shared.GetTime()
+            if desiredMode and now >= self.timeThrustersEnded + kMinTimeBetweenThrusterActivations then
                 self:HandleThrusterStart(desiredMode)
                 self.lastThrusterDesired = true
             end
@@ -1366,11 +1367,21 @@ end
 
 -- for jetpack fuel display
 function Exo:GetFuel()
+    
+    local slope
+    local changeCooldownPeriod
     if self.thrustersActive then
-        return Clamp(self.fuelAtChange - (Shared.GetTime() - self.timeFuelChanged) / kThrusterDuration, 0, 1)
+        slope = -1.0 / kThrusterDuration
+        changeCooldownPeriod = 0
     else
-        return Clamp(self.fuelAtChange + (Shared.GetTime() - self.timeFuelChanged) / kThrustersCooldownTime, 0, 1)
+        slope = 1.0 / kThrustersCooldownTime
+        changeCooldownPeriod = kThrusterRefuelCooldownTime
     end
+    
+    local deltaT = math.max(0, Shared.GetTime() - self.timeFuelChanged - changeCooldownPeriod)
+    
+    return (Clamp(slope * deltaT + self.fuelAtChange, 0, 1))
+    
 end
 
 function Exo:OnUpdateAnimationInput(modelMixin)
