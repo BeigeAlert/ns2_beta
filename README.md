@@ -5,6 +5,16 @@ This mod contains various balance changes based on various ideas of the NS2 bala
 
 Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
 
+## November 16, 2019
+- Alien
+    - Vampirism no longer has any effect when used against exos.
+- Marine
+    - Exos
+        - Exos are now free to fire their weapons while thrusters are being used.
+        - Thrusters can be used at any time -- no longer have to wait for a full recharge.
+            - There is a small 0.75 second cooldown between thruster usages though, to prevent spamming.
+            - Thruster fuel now takes 0.75 seconds to begin recharging after last usage.
+
 ## November 10, 2019
 - Marine
     - Shotgun
