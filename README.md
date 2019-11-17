@@ -12,7 +12,6 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
     - Exos
         - Exos are now free to fire their weapons while thrusters are being used.
         - Thrusters can be used at any time -- no longer have to wait for a full recharge.
-            - There is a small 0.75 second cooldown between thruster usages though, to prevent spamming.
             - Thruster fuel now takes 0.75 seconds to begin recharging after last usage.
     - Shotgun
         - Shotgun pellet counts changes reverted (back to 1, 5, 7)
