@@ -1564,4 +1564,12 @@ function Exo:PlayerCameraCoordsAdjustment(cameraCoords)
 
 end
 
+if Server then
+    
+    function Exo:GetCanVampirismBeUsedOn()
+        return false
+    end
+    
+end
+
 Shared.LinkClassToMap("Exo", Exo.kMapName, networkVars, true)
