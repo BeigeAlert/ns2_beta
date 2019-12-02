@@ -5,107 +5,40 @@ This mod contains various balance changes based on various ideas of the NS2 bala
 
 Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
 
-## November 18, 2019
-- Ranking is no longer forcibly disabled for servers running this mod.
 
-## November 16, 2019
-- Alien
-    - Vampirism no longer has any effect when used against exos.
+## Full Changelog:
 - Marine
-    - Exos
-        - Exos are now free to fire their weapons while thrusters are being used.
-        - Thrusters can be used at any time -- no longer have to wait for a full recharge.
-            - Thruster fuel now takes 0.75 seconds to begin recharging after last usage.
     - Shotgun
         - Reverted shotgun to build 326-behavior.
             - 17 pellets, each deal 10 damage.
             - Divided into 4 rings of 4 pellets each, +1 pellet in the middle.
             - Pellet sizes are all 16mm.
-            - Damage falloff is disabled.
-    - Mines
-        - Mines are now worth 5 points apiece.
-
-## November 10, 2019
-- Marine
-    - Shotgun
-        - Base damage now 160.
-
-## November 9, 2019
-- Marine
-    - Shotgun
-        - Reverted fire rate change.
-        - Base damage now 140.
-        - Introduced a damage falloff that ramps up to 20% over 4m after 8m.
-        - Changed shotgun pellet size back to 16mm (from 45mm for inner pellets and 65mm for outer pellets)
-        - Pellet damage is uniform for all pellets.
-        - Middle ring now has 8 pellets, outer ring now has 6 pellets.
-        - Outer ring distance is 2/3 as spread out as much as before.
-    - Exosuit
-        - Railgun
-            - Minimum damage increased by 10 (maximum damage unchanged).
-            - Heavy damage kicks in at 75% charge now, instead of 100% charge.
-            - Full charge time is 1s (down from 1.5s)
-            - Distortion tracer effect and steam effects no longer play if the shot didn't deal heavy damage (75% charge).
-- Alien
-    - Gorge
-        - Hydra
-            - Added a spread (inaccuracy) to the hydra's shots starting at 8 meters, and ramping up to maximum iniaccuracy at 12 meters.  Inaccuracy ramps between 0 and 8 degrees.
-        - Webs
-            - Webs now break on contact.
-            - Webs now decloak from further away (5m instead of 2.5m)
-            - Increased the web snare effect to 66% (movement speed is 34% after being webbed).
-            - Web snare effect wears off gradually, rather than all at once at the end.
-    - Skulk
-        - Skulk sneak speed reduced from 4.785 -> 4.0
-        - Skulks no longer receive a speed boost when jumping off flat ground, except when bunny-hopping.
-
-## November 7, 2019
-- Disabled ranking, so no need to worry about your ELO when playing the balance beta! :)
-
-## November 6, 2019 (#2)
-- Alien
-    - Regeneration
-        - No longer heals while in combat (back to current live-build behavior).
-    - Gorge
-        - Hydra
-            - Damage 10 -> 5.
-
-## November 6, 2019
-- Marine
-    - Shotgun
-        - Inner shots (middle + middle ring) damage 12.57 each pellet, w/ pellet size of 45mm (up from 16mm)
-        - Outer ring damage 7.70 damage each pellet, w/ pellet size of 65mm (up from 32mm)
-        - (total damage remains the same, just redistributed amongst pellets)
-        - Shotgun pellet values can now be tweaked in real-time.
-    - Embryo
-        - Fixed that incorrect gestation time was being used (debug value got left in, oops!)
-
-## November 5, 2019 Initial Release
-- Marine
-    - Shotgun
-        - Damage: 170 -> 130 total
-            
-        - Fire rate: 1.13 -> 1.48 shots/sec
-        - Removed damage falloff (compared to live via extension)
+            - No Damage Falloff.
     - HMG
         - Reload time: 5 -> 3.5 seconds.
     - Mines
-        - Mines can now be killed before they are "active".  In this case, they do not explode.
-        - Marines keep unused mines when they die and receive them back when they respawn (like hand grenades).
-        - HP: 50 -> 40
+        - Mines can now be properly killed during their arming period when first deployed. In this case, they do not explode or deal               damage.
+        - Marines now keep unused mines when they die and receive them back when they respawn (like hand grenades).
+        - Health changed to 40 (up from 30)
         - Lerk spikes deal 2x damage to mines (Damage: 5 -> 10).
+        - Mines now award 5 score points when killed by an alien.
     - Hand Grenades
         - Deploy animation can be skipped so grenades can be switched to and thrown much faster.
     - Exosuit
         - Reduced opacity of "scanlines" texture to about 25% of original value.
+        - Exos are now free to fire their weapons while thrusters are being used.
+        - Thrusters can now be toggled on and off freely without waiting for maximum charge between use.
+            - Thruster fuel now has a 0.75 second cooldown before recharging after last use.
         - Exosuits now "self-repair" when out of combat at a rate of 10 armor/second.
+        - Alien Vampirism no longer has any effect when used against exos.
         - Railgun
             - Both railguns can fire simultaneously now.
-            - Full-charge duration now 1.5 seconds.
+            - Full-charge duration is now 1 second
             - Cooldown between shots is now 0.3 seconds.
             - Anything short of a full-charge shot no longer penetrates targets.
-            - Full-charge shots are "heavy" damage type (double damage to armor), non-full-charge shots are regular damage.
-            - Damage ramps up from 15 to 50 as you charge.
+            - Shots with 75% power and above now convert to "heavy" damage type (double damage to armor), 74% power and below charge                   shots are regular damage.
+            - Distortion tracer effect and steam effects no longer play if the shot didn't deal heavy damage (75% charge).
+            - Damage ramps up from 25 to 50 as you charge.
         - Minigun
             - Damage type is now "heavy" (double damage to armor).
             - Damage: 10 -> 6
@@ -116,20 +49,22 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
 - Alien
     - Skulk
         - Model size decreased by 10% (90% original size).
+        - Skulk sneak speed reduced to 4.0 (down from 4.785)
+        - Skulks now only recieve a speed boost from a consecutive jump.
+        
     - Gorge
         - Heal spray
             - Now adds maturity to alien structures and speeds up player evolution.
         - Hydra
-            - Hydras are now just about 100% accurate.
+            - Hydras are now extremely accurate. Accuracy tapers off starting at 8 meters up to the maximum degredation                               at 12 meters. Inaccuracy ramps between 0 and 8 degrees.
             - Hydras can now shoot back from the last spot they were hit, so if you can hit them, they can hit you.
-            - Damage: 15 -> 10
+            - Damage reduced to 5 (down from 15)
         - Web
-            - Webs now cloak, and are impossible to spot unless you get close
-                - Webs visible no further than 5m.
-                - De-cloak when marines get close (~2.5m)
-            - Webs no longer parasite marines.
-            - Slow duration: 1.5s -> 2.5s
-            - Webs no longer appear in the kill-feed.
+            - Now break on contact.
+            - Snare now reduces movement speed by 66% and tapers off gradually over 2.5 seconds (up from 1.5 seconds)
+            - Webs now turn invisible, only fading into view at 5 meters or closer.
+            - No longer parasite marines.
+            - No longer appears in the kill-feed.
     - Lerk
         - Projectile size: 45mm -> 60mm.  Should be easier to hit marines now.
     - Fade
@@ -139,6 +74,7 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
         - Fades no longer receive speed bonuses from successive blinks without celerity.
     - Vampirism
         - Skulks health % recovered: 20% -> 14%
+        - Vampirism no longer has any effect when used against Exosuits.
     - Regeneration
         - Now uses EHP (effective HP) calculations (armor counts as 2 hp) when healing (so armor takes 2x as long to heal).
         - No longer stops when in combat.
