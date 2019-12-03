@@ -45,6 +45,7 @@ local mainMenu
 function CreateMainMenu()
     assert(not mainMenu)
     mainMenu = CreateGUIObject("mainMenu", GetMainMenuClass())
+    GetGlobalEventDispatcher():FireEvent("OnMainMenuCreated")
 end
 
 function GetMainMenu()
