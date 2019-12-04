@@ -1,0 +1,1 @@
+ModLoader.SetupFileHook("lua/NS2Utility.lua", "lua/BetaBalanceNS2Utility.lua", "post")

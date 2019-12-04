@@ -128,6 +128,16 @@ function Gore:GetMeleeBase()
     return 1, 1.4
 end
 
+function Gore:GetGlancingMeleeBase()
+    -- Width of box, height of box
+    return 1.5, 1.2
+end
+
+-- Define here rather than passing into AttackMeleeCapsule to preserve function signature.
+function Gore:GetGlancingDamage()
+    return kGoreDamageGlancing
+end
+
 function Gore:GetIsAffectedByFocus()
     return true
 end

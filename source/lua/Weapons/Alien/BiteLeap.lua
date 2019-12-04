@@ -112,7 +112,17 @@ end
 
 function BiteLeap:GetMeleeBase()
     -- Width of box, height of box
-    return 1.2, 1.2
+    return 0.8, 1.0
+end
+
+function BiteLeap:GetGlancingMeleeBase()
+    -- Width of box, height of box
+    return 1.5, 1.2
+end
+
+-- Define here rather than passing into AttackMeleeCapsule to preserve function signature.
+function BiteLeap:GetGlancingDamage()
+    return kBiteDamageGlancing
 end
 
 function BiteLeap:GetMeleeOffset()

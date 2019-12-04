@@ -3,6 +3,6 @@ modEntry =
     Client = "lua/BetaBalanceClient.lua",
     --Server = "lua/BetaBalanceServer.lua",
     Shared = "lua/BetaBalanceShared.lua",
-    --FileHooks = "lua/BetaBalanceFileHooks.lua",
+    FileHooks = "lua/BetaBalanceFileHooks.lua",
     Priority = 9999
 }

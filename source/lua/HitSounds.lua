@@ -57,6 +57,8 @@ if Server then
 
     function HitSound_RecordHit( attacker, target, amount, point, overkill, weapon )
         attacker = (attacker and attacker:GetId()) or Entity.invalidId
+        
+        local wasGlancing = target ~= nil and target._lastDamageWasGlancing
         target = (target and target:GetId()) or Entity.invalidId
 
         local hit
@@ -69,6 +71,7 @@ if Server then
                 hit.amount = hit.amount + amount
                 hit.overkill = hit.overkill + overkill
                 hit.hitcount = hit.hitcount + 1
+                hit.glancing = wasGlancing and hit.glancing
                 return
             end
         end
@@ -82,7 +85,8 @@ if Server then
                 point = point,
                 overkill = overkill,
                 weapon = weapon,
-                hitcount = 1
+                hitcount = 1,
+                glancing = wasGlancing,
             }
         end
 
@@ -92,7 +96,10 @@ if Server then
     function HitSound_ChooseSound(hit)
         local sound = 1
         local attacker = Shared.GetEntity(hit.attacker)
-        if hit.weapon == kTechId.Railgun then
+    
+        if hit.glancing then
+            sound = 1 -- always use lowest level hitsound for glancing blows.
+        elseif hit.weapon == kTechId.Railgun then
             -- Railgun hitsound is based on charge amount
             local chargeAmount = ( ( hit.overkill / NS2Gamerules_GetUpgradedDamageScalar( attacker ) ) - kRailgunDamage ) / kRailgunChargeDamage
             if kHitSoundHigh <= chargeAmount then

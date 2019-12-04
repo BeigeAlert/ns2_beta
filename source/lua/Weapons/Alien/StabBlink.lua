@@ -60,6 +60,17 @@ function StabBlink:GetMeleeBase()
     return .7, 1.2
 end
 
+function StabBlink:GetGlancingMeleeBase()
+    -- Width of box, height of box
+    return 1.5, 1.2
+end
+
+-- Define here rather than passing into AttackMeleeCapsule to preserve function signature.
+function StabBlink:GetGlancingDamage()
+    return kStabDamageGlancing
+end
+
+
 function StabBlink:GetDeathIconIndex()
     return kDeathMessageIcon.Stab
 end

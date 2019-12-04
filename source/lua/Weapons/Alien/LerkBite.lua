@@ -122,7 +122,16 @@ end
 function LerkBite:GetMeleeBase()
     -- Width of box, height of box
     return 0.9, 1.2
-    
+end
+
+function LerkBite:GetGlancingMeleeBase()
+    -- Width of box, height of box
+    return 1.5, 1.2
+end
+
+-- Define here rather than passing into AttackMeleeCapsule to preserve function signature.
+function LerkBite:GetGlancingDamage()
+    return kLerkBiteDamageGlancing
 end
 
 function LerkBite:GetMeleeOffset()

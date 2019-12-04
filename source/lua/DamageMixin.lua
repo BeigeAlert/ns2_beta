@@ -202,6 +202,16 @@ function DamageMixin:DoDamage(damage, target, point, direction, surface, altMode
                 end
 
             end
+            
+            
+            -- Make glancing blows play a different sound.
+            if target and target._lastDamageWasGlancing then
+    
+                if target:isa("Exo") or target:isa("Marine") then
+                    surface = "metal" -- just nicked the armor plating... I guess...
+                end
+                
+            end
 
             -- send to all players in range, except to attacking player, he will predict the hit effect
             if Server then

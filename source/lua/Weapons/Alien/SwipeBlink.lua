@@ -23,6 +23,7 @@ local networkVars =
 -- Make sure to keep damage vs. structures less then Skulk
 SwipeBlink.kSwipeEnergyCost = kSwipeEnergyCost
 SwipeBlink.kDamage = kSwipeDamage
+SwipeBlink.kDamageGlancing = 17.5
 SwipeBlink.kRange = 1.6
 
 local kAnimationGraph = PrecacheAsset("models/alien/fade/fade_view.animation_graph")
@@ -56,7 +57,16 @@ end
 function SwipeBlink:GetMeleeBase()
     -- Width of box, height of box
     return .7, 1.2
-    
+end
+
+function SwipeBlink:GetGlancingMeleeBase()
+    -- Width of box, height of box
+    return 1.5, 1.2
+end
+
+-- Define here rather than passing into AttackMeleeCapsule to preserve function signature.
+function SwipeBlink:GetGlancingDamage()
+    return self.kDamageGlancing
 end
 
 function SwipeBlink:GetDeathIconIndex()

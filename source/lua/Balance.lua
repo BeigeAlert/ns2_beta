@@ -351,6 +351,7 @@ kAlienFocusUpgradeAttackDelay = 1 --FIXME Does not account for variable attack-r
 
 
 kBiteDamage = 75
+kBiteDamageGlancing = 35
 kBiteDamageType = kDamageType.Normal
 kBiteEnergyCost = 5.85
 
@@ -408,6 +409,7 @@ kWebbedParasiteDuration = 10
 kWebSlowVelocityScalar = 0.34 --Note: Exos override this
 
 kLerkBiteDamage = 60
+kLerkBiteDamageGlancing = 25
 kBitePoisonDamage = 6 -- per second
 kPoisonBiteDuration = 6
 kLerkBiteEnergyCost = 5
@@ -448,6 +450,7 @@ kSwipeEnergyCost = 7
 kMetabolizeEnergyCost = 25
 
 kStabDamage = 120
+kStabDamageGlancing = 50
 kStabDamageType = kDamageType.Structural
 kStabEnergyCost = 15
 
@@ -456,6 +459,7 @@ kBlinkEnergyCost = 32
 kHealthOnBlink = 0
 
 kGoreDamage = 90
+kGoreDamageGlancing = 40
 kGoreDamageType = kDamageType.Structural
 kGoreEnergyCost = 10
 
