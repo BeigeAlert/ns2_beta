@@ -7,6 +7,7 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
 
 
 ## Full Changelog:
+- Added a "changelog" console command to show this webpage.
 - Marine
     - Shotgun
         - Reverted to build 326-behavior.
@@ -47,7 +48,14 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
         - Marine dropped weapon decay timer is now 16 seconds (down from 25)
         - Nanoshield duration is now 3 seconds when used on players (down from 5) -Nanoshield used on structures remains unchanged at 5           seconds.
 - Alien
+    - Glancing hits
+        - Skulk bite, lerk bite, fade swipe, fade stab, and onos gore now have an expanded cone around their normal attack-cone which provides a "glancing hit" if the regular hit misses.
+        - Glancing hits do reduced damage.
+        - Glancing hits play a different damage sound (metal instead of flesh)
+        - Glancing hits play a different hit sound (the lower-damage hitsound)
+        
     - Skulk
+        - Reduced bite cone to 0.8 x 1.0 (down from 1.2 x 1.2)
         - Model size decreased by 10% (90% original size).
         - Skulk sneak speed reduced to 4.0 (down from 4.785)
         - Skulks now only recieve a speed boost from a consecutive jump.
@@ -60,6 +68,7 @@ Join the official ns2 discord server (discord.gg/ns2) to leave feedback!
             - Hydras can now shoot back from the last spot they were hit, so if you can hit them, they can hit you.
             - Damage reduced to 5 (down from 15)
         - Web
+            - Gorges can finish placing webs from much further away.  Starting placement range is unchanged.
             - Now break on contact.
             - Snare now reduces movement speed by 66% and tapers off gradually over 2.5 seconds (up from 1.5 seconds)
             - Webs now turn invisible, only fading into view at 5 meters or closer.
