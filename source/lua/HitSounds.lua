@@ -97,9 +97,7 @@ if Server then
         local sound = 1
         local attacker = Shared.GetEntity(hit.attacker)
     
-        if hit.glancing then
-            sound = 1 -- always use lowest level hitsound for glancing blows.
-        elseif hit.weapon == kTechId.Railgun then
+        if hit.weapon == kTechId.Railgun then
             -- Railgun hitsound is based on charge amount
             local chargeAmount = ( ( hit.overkill / NS2Gamerules_GetUpgradedDamageScalar( attacker ) ) - kRailgunDamage ) / kRailgunChargeDamage
             if kHitSoundHigh <= chargeAmount then
@@ -124,6 +122,11 @@ if Server then
             end
         elseif hit.weapon == kTechId.LerkBite then
             sound = 3
+        end
+        
+        -- Change hitsound if glancing, just to differentiate it.
+        if hit.glancing then
+            sound = sound % 3 + 1
         end
 
         return sound
