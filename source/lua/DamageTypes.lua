@@ -129,7 +129,12 @@ function NS2Gamerules_GetUpgradedAlienDamage( target, attacker, doer, damage, ar
                 if attacker:GetIsHealable() and target:isa("Player") then
                     local scalar = doer:GetVampiricLeechScalar()
                     if scalar > 0 then
-
+                        
+                        -- Leech less health if the attack was a glancing hit.
+                        if target._lastDamageWasGlancing then
+                            scalar = scalar * 0.4 -- 40% damage
+                        end
+                        
                         local focusBonus = 1
                         if isAffectedByFocus then
                             focusBonus = 1 + doer:GetFocusAttackCooldown()
