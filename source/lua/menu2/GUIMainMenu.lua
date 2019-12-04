@@ -1,3 +1,5 @@
+Log("Loading modified GUIMainMenu.lua for NS2 Balance Beta mod.")
+
 -- ======= Copyright (c) 2019, Unknown Worlds Entertainment, Inc. All rights reserved. =======
 --
 -- lua/menu2/GUIMainMenu.lua
