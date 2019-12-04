@@ -1,5 +1,7 @@
 Log("Loading BetaBalanceNewsFeed.lua for NS2 Balance Beta mod.")
 
+local kBetaBalanceWebpageURL = "https://rantology.github.io/"
+
 local ged = GetGlobalEventDispatcher()
 ged:HookEvent(ged, "OnMainMenuCreated", function()
 
@@ -13,7 +15,7 @@ ged:HookEvent(ged, "OnMainMenuCreated", function()
                 label = "Beta Changelog",
                 webPageParams =
                 {
-                    url = "https://rantology.github.io/",
+                    url = kBetaBalanceWebpageURL,
                     clickMode = "Full",
                     wheelEnabled = true,
                 },
@@ -29,5 +31,14 @@ ged:HookEvent(ged, "OnMainMenuCreated", function()
     else
         Log("Main menu nav bar not loaded!  Cannot add beta balance changelog to newsfeed.")
     end
+    
+    -- Open the menu to show the popup immediately.
+    GetMainMenu():Open()
 
 end)
+
+function DisplayBetaBalanceChangelog()
+    Client.ShowWebpage(kBetaBalanceWebpageURL)
+end
+
+Event.Hook("Console_changelog", DisplayBetaBalanceChangelog)
