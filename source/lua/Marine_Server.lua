@@ -128,7 +128,13 @@ end
 
 function Marine:OnSprintStart()
     if self:GetIsAlive() then
-        if self:GetGenderString() == "female" then
+        local marineType = self:GetMarineTypeString()
+        
+        if marineType == "bigmac" then
+            return
+        end
+
+        if marineType == "female" then
              StartSoundEffectOnEntity(Marine.kSprintStartFemale, self)
         else 
              StartSoundEffectOnEntity(Marine.kSprintStart, self)
@@ -137,8 +143,14 @@ function Marine:OnSprintStart()
 end
 
 function Marine:OnSprintEnd(sprintDuration)
+    local marineType = self:GetMarineTypeString()
+
+    if marineType == "bigmac" then
+        return
+    end
+
     if sprintDuration > 5 then
-        if self:GetGenderString() == "female" then
+        if marineType == "female" then
              StartSoundEffectOnEntity(Marine.kSprintTiredEndFemale, self)
         else 
              StartSoundEffectOnEntity(Marine.kSprintTiredEnd, self)
