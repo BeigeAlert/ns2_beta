@@ -381,7 +381,7 @@ function DropStructureAbility:GetPositionForStructure(startPosition, direction, 
     PROFILE("DropStructureAbility:GetPositionForStructure")
 
     local validPosition = false
-    local range = structureAbility.GetDropRange()
+    local range = structureAbility:GetDropRange(lastClickedPosition)
     local origin = startPosition + direction * range
     local player = self:GetParent()
 

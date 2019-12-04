@@ -10,6 +10,11 @@ Script.Load("lua/Weapons/Alien/StructureAbility.lua")
 
 class 'WebsAbility' (StructureAbility)
 
+local kMapOrigin = Vector(0,0,0)
+
+WebsAbility.kFirstDropRange = kGorgeCreateDistance
+WebsAbility.kSecondDropRange = WebsAbility.kFirstDropRange * 3
+
 function WebsAbility:GetEnergyCost()
     return kDropStructureEnergyCost
 end
@@ -34,13 +39,21 @@ function WebsAbility:GetDropClassName()
     return "Web"
 end
 
+function WebsAbility:GetDropRange(lastClickedPosition)
+    if not lastClickedPosition or lastClickedPosition == kMapOrigin then
+        return WebsAbility.kFirstDropRange
+    else
+        return WebsAbility.kSecondDropRange
+    end
+end
+
 function WebsAbility:OnStructureCreated(structure, lastClickedPosition)
     structure:SetEndPoint(lastClickedPosition)
 end
 
 function WebsAbility:GetIsPositionValid(displayOrigin, player, normal, lastClickedPosition, entity)
 
-    local mapOrigin = Vector(0,0,0)
+    
     local direction = player:GetViewCoords().zAxis
     local startPoint = displayOrigin + normal * 0.1
     local valid = lastClickedPosition == nil
@@ -56,7 +69,7 @@ function WebsAbility:GetIsPositionValid(displayOrigin, player, normal, lastClick
     
     end
 
-    return valid and (not entity or entity:isa("Tunnel") or entity:isa("Infestation")) and lastClickedPosition ~= mapOrigin
+    return valid and (not entity or entity:isa("Tunnel") or entity:isa("Infestation")) and lastClickedPosition ~= kMapOrigin
     
 end
 
