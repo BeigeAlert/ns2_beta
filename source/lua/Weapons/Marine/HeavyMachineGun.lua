@@ -5,6 +5,7 @@ Log("Loading modified HeavyMachineGun.lua for NS2 Balance Beta mod.")
 
 Script.Load("lua/Weapons/Marine/ClipWeapon.lua")
 Script.Load("lua/PickupableWeaponMixin.lua")
+Script.Load("lua/PointGiverMixin.lua")
 Script.Load("lua/LiveMixin.lua")
 Script.Load("lua/EntityChangeMixin.lua")
 Script.Load("lua/Weapons/ClientWeaponEffectsMixin.lua")
@@ -138,6 +139,7 @@ function HeavyMachineGun:OnCreate()
     InitMixin(self, PickupableWeaponMixin)
     InitMixin(self, EntityChangeMixin)
     InitMixin(self, LiveMixin)
+    InitMixin(self, PointGiverMixin)
     InitMixin(self, HMGVariantMixin)
 
     if Client then

@@ -29,7 +29,7 @@ kMarineRegenerationHeal = 25 --Amount of hp per second
 kLayMinesPointValue = 2
 kGrenadeLauncherPointValue = 10
 kShotgunPointValue = 10
-kHeavyMachineGunValue = 15
+kHeavyMachineGunPointValue = 15
 kFlamethrowerPointValue = 7
 
 kMinigunPointValue = 10
