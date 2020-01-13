@@ -269,6 +269,11 @@ function DamageMixin:DoDamage(damage, target, point, direction, surface, altMode
         
     end
     
+    -- Reset this flag so subsequent damage events won't be accidentally considered glancing.
+    if target and target._lastDamageWasGlancing then
+        target._lastDamageWasGlancing = false
+    end
+    
     return killedFromDamage
     
 end
