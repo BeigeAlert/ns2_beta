@@ -149,7 +149,10 @@ local networkVars =
     
     ruptured = "boolean",
     interruptAim = "private boolean",
+    
     poisoned = "boolean",
+    poisonWasGlancingHit = "boolean",
+    
     weaponUpgradeLevel = "integer (0 to 3)",
     
     unitStatusPercentage = "private integer (0 to 100)",
@@ -219,6 +222,7 @@ function Marine:OnCreate()
     
         self.timePoisoned = 0
         self.poisoned = false
+        self.poisonWasGlancingHit = false
         
         -- stores welder / builder progress
         self.unitStatusPercentage = 0
@@ -1051,6 +1055,11 @@ function Marine:OnProcessMove(input)
             
                 local currentHealth = self:GetHealth()
                 local poisonDamage = kBitePoisonDamage
+                
+                -- Poison is less potent if it was a glancing bite.
+                if self.poisonWasGlancingHit then
+                    poisonDamage = poisonDamage * kBitePoisonDamageGlancingMultiplier
+                end
                 
                 -- never kill the marine with poison only
                 if currentHealth - poisonDamage < kPoisonDamageThreshhold then

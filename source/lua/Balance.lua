@@ -411,6 +411,7 @@ kWebSlowVelocityScalar = 0.34 --Note: Exos override this
 kLerkBiteDamage = 60
 kLerkBiteDamageGlancing = 25
 kBitePoisonDamage = 6 -- per second
+kBitePoisonDamageGlancingMultiplier = 0.4 -- 40% effective poison when glancing.
 kPoisonBiteDuration = 6
 kLerkBiteEnergyCost = 5
 kLerkBiteDamageType = kDamageType.Normal

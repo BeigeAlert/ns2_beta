@@ -807,13 +807,14 @@ local function OnCommandGore(client)
     
 end
 
-local function OnCommandPoison(client)
+local function OnCommandPoison(client, useGlancing)
 
     local player = client:GetControllingPlayer()
+    useGlancing = useGlancing == "1" or useGlancing == "true"
     
     if Shared.GetCheatsEnabled() and player and player:isa("Marine") then
     
-        player:SetPoisoned()
+        player:SetPoisoned(nil, useGlancing)
         
     end
     

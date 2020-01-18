@@ -69,13 +69,19 @@ function Marine:GetDamagedAlertId()
     return kTechId.MarineAlertSoldierUnderAttack
 end
 
-function Marine:SetPoisoned(attacker)
-
+function Marine:SetPoisoned(attacker, wasGlancingHit)
+    
     self.poisoned = true
     self.timePoisoned = Shared.GetTime()
     
+    -- just add another bool for this so we don't screw up any mods depending on .poisoned being a
+    -- boolean value.
+    self.poisonWasGlancingHit = (wasGlancingHit == true) -- nil --> false
+    
     if attacker then
         self.lastPoisonAttackerId = attacker:GetId()
+    else
+        self.lastPoisonAttackerId = Entity.invalidId
     end
     
 end
