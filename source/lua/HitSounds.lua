@@ -120,14 +120,24 @@ if Server then
             elseif kHitSoundMidShotgunHitCount <= hit.hitcount then
                 sound = 2
             end
-        elseif hit.weapon == kTechId.LerkBite then
-            sound = 3
+        elseif hit.weapon == kTechId.Bite or
+               hit.weapon == kTechId.LerkBite or
+               hit.weapon == kTechId.Swipe or
+               hit.weapon == kTechId.Stab or
+               hit.weapon == kTechId.Gore then
+    
+            if hit.glancing then
+                sound = 1
+            else
+                sound = 3
+            end
+            
         end
         
         -- Change hitsound if glancing, just to differentiate it.
-        if hit.glancing then
-            sound = sound % 3 + 1
-        end
+        --if hit.glancing then
+        --    sound = sound % 3 + 1
+        --end
 
         return sound
     end
