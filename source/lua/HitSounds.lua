@@ -133,11 +133,6 @@ if Server then
             end
             
         end
-        
-        -- Change hitsound if glancing, just to differentiate it.
-        --if hit.glancing then
-        --    sound = sound % 3 + 1
-        --end
 
         return sound
     end
