@@ -99,7 +99,7 @@ function Metabolize:OnTag(tagName)
             player:DeductAbilityEnergy(kMetabolizeEnergyCost)
             player:TriggerEffects("metabolize")
             if player:GetCanMetabolizeHealth() then
-                local totalHealed = player:AddHealth(kMetabolizeHealthRegain, false, false)
+                local totalHealed = player:AddHealth(kMetabolizeHealthRegain, false, false, nil, nil, true)
 				if Client and totalHealed > 0 then
 					local GUIRegenerationFeedback = ClientUI.GetScript("GUIRegenerationFeedback")
 					GUIRegenerationFeedback:TriggerRegenEffect()
